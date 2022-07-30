@@ -95,6 +95,12 @@ class Database extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>string default_leader = 9 [(.google.api.field_behavior) = OUTPUT_ONLY];</code>
      */
     private $default_leader = '';
+    /**
+     * Output only. The dialect of the Cloud Spanner Database.
+     *
+     * Generated from protobuf field <code>.google.spanner.admin.database.v1.DatabaseDialect database_dialect = 10 [(.google.api.field_behavior) = OUTPUT_ONLY];</code>
+     */
+    private $database_dialect = 0;
 
     /**
      * Constructor.
@@ -146,6 +152,8 @@ class Database extends \Google\Protobuf\Internal\Message
      *           This is the same as the value of default_leader
      *           database option set using DatabaseAdmin.CreateDatabase or
      *           DatabaseAdmin.UpdateDatabaseDdl. If not explicitly set, this is empty.
+     *     @type int $database_dialect
+     *           Output only. The dialect of the Cloud Spanner Database.
      * }
      */
     public function __construct($data = NULL) {
@@ -221,7 +229,7 @@ class Database extends \Google\Protobuf\Internal\Message
      */
     public function getCreateTime()
     {
-        return isset($this->create_time) ? $this->create_time : null;
+        return $this->create_time;
     }
 
     public function hasCreateTime()
@@ -258,7 +266,7 @@ class Database extends \Google\Protobuf\Internal\Message
      */
     public function getRestoreInfo()
     {
-        return isset($this->restore_info) ? $this->restore_info : null;
+        return $this->restore_info;
     }
 
     public function hasRestoreInfo()
@@ -298,7 +306,7 @@ class Database extends \Google\Protobuf\Internal\Message
      */
     public function getEncryptionConfig()
     {
-        return isset($this->encryption_config) ? $this->encryption_config : null;
+        return $this->encryption_config;
     }
 
     public function hasEncryptionConfig()
@@ -413,7 +421,7 @@ class Database extends \Google\Protobuf\Internal\Message
      */
     public function getEarliestVersionTime()
     {
-        return isset($this->earliest_version_time) ? $this->earliest_version_time : null;
+        return $this->earliest_version_time;
     }
 
     public function hasEarliestVersionTime()
@@ -475,6 +483,32 @@ class Database extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkString($var, True);
         $this->default_leader = $var;
+
+        return $this;
+    }
+
+    /**
+     * Output only. The dialect of the Cloud Spanner Database.
+     *
+     * Generated from protobuf field <code>.google.spanner.admin.database.v1.DatabaseDialect database_dialect = 10 [(.google.api.field_behavior) = OUTPUT_ONLY];</code>
+     * @return int
+     */
+    public function getDatabaseDialect()
+    {
+        return $this->database_dialect;
+    }
+
+    /**
+     * Output only. The dialect of the Cloud Spanner Database.
+     *
+     * Generated from protobuf field <code>.google.spanner.admin.database.v1.DatabaseDialect database_dialect = 10 [(.google.api.field_behavior) = OUTPUT_ONLY];</code>
+     * @param int $var
+     * @return $this
+     */
+    public function setDatabaseDialect($var)
+    {
+        GPBUtil::checkEnum($var, \Google\Cloud\Spanner\Admin\Database\V1\DatabaseDialect::class);
+        $this->database_dialect = $var;
 
         return $this;
     }

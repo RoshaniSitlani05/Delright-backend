@@ -32,6 +32,12 @@ class ClusterAutoscaling extends \Google\Protobuf\Internal\Message
      */
     private $resource_limits;
     /**
+     * Defines autoscaling behaviour.
+     *
+     * Generated from protobuf field <code>.google.container.v1.ClusterAutoscaling.AutoscalingProfile autoscaling_profile = 3;</code>
+     */
+    private $autoscaling_profile = 0;
+    /**
      * AutoprovisioningNodePoolDefaults contains defaults for a node pool
      * created by NAP.
      *
@@ -58,6 +64,8 @@ class ClusterAutoscaling extends \Google\Protobuf\Internal\Message
      *     @type \Google\Cloud\Container\V1\ResourceLimit[]|\Google\Protobuf\Internal\RepeatedField $resource_limits
      *           Contains global constraints regarding minimum and maximum
      *           amount of resources in the cluster.
+     *     @type int $autoscaling_profile
+     *           Defines autoscaling behaviour.
      *     @type \Google\Cloud\Container\V1\AutoprovisioningNodePoolDefaults $autoprovisioning_node_pool_defaults
      *           AutoprovisioningNodePoolDefaults contains defaults for a node pool
      *           created by NAP.
@@ -127,6 +135,32 @@ class ClusterAutoscaling extends \Google\Protobuf\Internal\Message
     }
 
     /**
+     * Defines autoscaling behaviour.
+     *
+     * Generated from protobuf field <code>.google.container.v1.ClusterAutoscaling.AutoscalingProfile autoscaling_profile = 3;</code>
+     * @return int
+     */
+    public function getAutoscalingProfile()
+    {
+        return $this->autoscaling_profile;
+    }
+
+    /**
+     * Defines autoscaling behaviour.
+     *
+     * Generated from protobuf field <code>.google.container.v1.ClusterAutoscaling.AutoscalingProfile autoscaling_profile = 3;</code>
+     * @param int $var
+     * @return $this
+     */
+    public function setAutoscalingProfile($var)
+    {
+        GPBUtil::checkEnum($var, \Google\Cloud\Container\V1\ClusterAutoscaling\AutoscalingProfile::class);
+        $this->autoscaling_profile = $var;
+
+        return $this;
+    }
+
+    /**
      * AutoprovisioningNodePoolDefaults contains defaults for a node pool
      * created by NAP.
      *
@@ -135,7 +169,7 @@ class ClusterAutoscaling extends \Google\Protobuf\Internal\Message
      */
     public function getAutoprovisioningNodePoolDefaults()
     {
-        return isset($this->autoprovisioning_node_pool_defaults) ? $this->autoprovisioning_node_pool_defaults : null;
+        return $this->autoprovisioning_node_pool_defaults;
     }
 
     public function hasAutoprovisioningNodePoolDefaults()

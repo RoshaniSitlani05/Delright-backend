@@ -97,6 +97,14 @@ class Application extends \Google\Protobuf\Internal\Message
      */
     private $default_bucket = '';
     /**
+     * The service account associated with the application.
+     * This is the app-level default identity. If no identity provided during
+     * create version, Admin API will fallback to this one.
+     *
+     * Generated from protobuf field <code>string service_account = 13;</code>
+     */
+    private $service_account = '';
+    /**
      * Generated from protobuf field <code>.google.appengine.v1.Application.IdentityAwareProxy iap = 14;</code>
      */
     private $iap = null;
@@ -167,6 +175,10 @@ class Application extends \Google\Protobuf\Internal\Message
      *           Google Cloud Storage bucket that can be used by this application to store
      *           content.
      *           &#64;OutputOnly
+     *     @type string $service_account
+     *           The service account associated with the application.
+     *           This is the app-level default identity. If no identity provided during
+     *           create version, Admin API will fallback to this one.
      *     @type \Google\Cloud\AppEngine\V1\Application\IdentityAwareProxy $iap
      *     @type string $gcr_domain
      *           The Google Container Registry domain used for storing managed build docker
@@ -381,7 +393,7 @@ class Application extends \Google\Protobuf\Internal\Message
      */
     public function getDefaultCookieExpiration()
     {
-        return isset($this->default_cookie_expiration) ? $this->default_cookie_expiration : null;
+        return $this->default_cookie_expiration;
     }
 
     public function hasDefaultCookieExpiration()
@@ -494,12 +506,42 @@ class Application extends \Google\Protobuf\Internal\Message
     }
 
     /**
+     * The service account associated with the application.
+     * This is the app-level default identity. If no identity provided during
+     * create version, Admin API will fallback to this one.
+     *
+     * Generated from protobuf field <code>string service_account = 13;</code>
+     * @return string
+     */
+    public function getServiceAccount()
+    {
+        return $this->service_account;
+    }
+
+    /**
+     * The service account associated with the application.
+     * This is the app-level default identity. If no identity provided during
+     * create version, Admin API will fallback to this one.
+     *
+     * Generated from protobuf field <code>string service_account = 13;</code>
+     * @param string $var
+     * @return $this
+     */
+    public function setServiceAccount($var)
+    {
+        GPBUtil::checkString($var, True);
+        $this->service_account = $var;
+
+        return $this;
+    }
+
+    /**
      * Generated from protobuf field <code>.google.appengine.v1.Application.IdentityAwareProxy iap = 14;</code>
      * @return \Google\Cloud\AppEngine\V1\Application\IdentityAwareProxy|null
      */
     public function getIap()
     {
-        return isset($this->iap) ? $this->iap : null;
+        return $this->iap;
     }
 
     public function hasIap()
@@ -589,7 +631,7 @@ class Application extends \Google\Protobuf\Internal\Message
      */
     public function getFeatureSettings()
     {
-        return isset($this->feature_settings) ? $this->feature_settings : null;
+        return $this->feature_settings;
     }
 
     public function hasFeatureSettings()

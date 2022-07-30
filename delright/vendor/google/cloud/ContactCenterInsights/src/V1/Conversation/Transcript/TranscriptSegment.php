@@ -121,7 +121,7 @@ class TranscriptSegment extends \Google\Protobuf\Internal\Message
      */
     public function getMessageTime()
     {
-        return isset($this->message_time) ? $this->message_time : null;
+        return $this->message_time;
     }
 
     public function hasMessageTime()
@@ -299,7 +299,7 @@ class TranscriptSegment extends \Google\Protobuf\Internal\Message
      */
     public function getSegmentParticipant()
     {
-        return isset($this->segment_participant) ? $this->segment_participant : null;
+        return $this->segment_participant;
     }
 
     public function hasSegmentParticipant()
@@ -335,7 +335,7 @@ class TranscriptSegment extends \Google\Protobuf\Internal\Message
      */
     public function getDialogflowSegmentMetadata()
     {
-        return isset($this->dialogflow_segment_metadata) ? $this->dialogflow_segment_metadata : null;
+        return $this->dialogflow_segment_metadata;
     }
 
     public function hasDialogflowSegmentMetadata()
@@ -371,7 +371,7 @@ class TranscriptSegment extends \Google\Protobuf\Internal\Message
      */
     public function getSentiment()
     {
-        return isset($this->sentiment) ? $this->sentiment : null;
+        return $this->sentiment;
     }
 
     public function hasSentiment()
@@ -401,6 +401,4 @@ class TranscriptSegment extends \Google\Protobuf\Internal\Message
 
 }
 
-// Adding a class alias for backwards compatibility with the previous class name.
-class_alias(TranscriptSegment::class, \Google\Cloud\ContactCenterInsights\V1\Conversation_Transcript_TranscriptSegment::class);
 

@@ -16,24 +16,21 @@ use Throwable;
  */
 class RemoteConfigApiExceptionConverter
 {
-    /** @var ErrorResponseParser */
-    private $responseParser;
+    private ErrorResponseParser $responseParser;
 
-    /**
-     * @internal
-     */
     public function __construct()
     {
         $this->responseParser = new ErrorResponseParser();
     }
 
-    /**
-     * @return RemoteConfigException
-     */
-    public function convertException(Throwable $exception): FirebaseException
+    public function convertException(Throwable $exception): RemoteConfigException
     {
         if ($exception instanceof RequestException) {
             return $this->convertGuzzleRequestException($exception);
+        }
+
+        if ($exception instanceof ConnectException) {
+            return new ApiConnectionFailed('Unable to connect to the API: '.$exception->getMessage(), $exception->getCode(), $exception);
         }
 
         return new RemoteConfigError($exception->getMessage(), $exception->getCode(), $exception);
@@ -43,17 +40,11 @@ class RemoteConfigApiExceptionConverter
     {
         $message = $e->getMessage();
         $code = $e->getCode();
+        $response = $e->getResponse();
 
-        if ($e instanceof ConnectException) {
-            return new ApiConnectionFailed('Unable to connect to the API: '.$message, $code, $e);
-        }
-
-        $errors = [];
-
-        if ($response = $e->getResponse()) {
+        if ($response !== null) {
             $message = $this->responseParser->getErrorReasonFromResponse($response);
             $code = $response->getStatusCode();
-            $errors = $this->responseParser->getErrorsFromResponse($response);
         }
 
         if (\mb_stripos($message, 'permission_denied') !== false) {

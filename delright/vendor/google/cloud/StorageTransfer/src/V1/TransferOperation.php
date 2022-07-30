@@ -22,7 +22,7 @@ class TransferOperation extends \Google\Protobuf\Internal\Message
      */
     private $name = '';
     /**
-     * The ID of the Google Cloud Platform Project that owns the operation.
+     * The ID of the Google Cloud project that owns the operation.
      *
      * Generated from protobuf field <code>string project_id = 2;</code>
      */
@@ -85,7 +85,7 @@ class TransferOperation extends \Google\Protobuf\Internal\Message
      *     @type string $name
      *           A globally unique ID assigned by the system.
      *     @type string $project_id
-     *           The ID of the Google Cloud Platform Project that owns the operation.
+     *           The ID of the Google Cloud project that owns the operation.
      *     @type \Google\Cloud\StorageTransfer\V1\TransferSpec $transfer_spec
      *           Transfer specification.
      *     @type \Google\Cloud\StorageTransfer\V1\NotificationConfig $notification_config
@@ -136,7 +136,7 @@ class TransferOperation extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * The ID of the Google Cloud Platform Project that owns the operation.
+     * The ID of the Google Cloud project that owns the operation.
      *
      * Generated from protobuf field <code>string project_id = 2;</code>
      * @return string
@@ -147,7 +147,7 @@ class TransferOperation extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * The ID of the Google Cloud Platform Project that owns the operation.
+     * The ID of the Google Cloud project that owns the operation.
      *
      * Generated from protobuf field <code>string project_id = 2;</code>
      * @param string $var
@@ -169,7 +169,7 @@ class TransferOperation extends \Google\Protobuf\Internal\Message
      */
     public function getTransferSpec()
     {
-        return isset($this->transfer_spec) ? $this->transfer_spec : null;
+        return $this->transfer_spec;
     }
 
     public function hasTransferSpec()
@@ -205,7 +205,7 @@ class TransferOperation extends \Google\Protobuf\Internal\Message
      */
     public function getNotificationConfig()
     {
-        return isset($this->notification_config) ? $this->notification_config : null;
+        return $this->notification_config;
     }
 
     public function hasNotificationConfig()
@@ -241,7 +241,7 @@ class TransferOperation extends \Google\Protobuf\Internal\Message
      */
     public function getStartTime()
     {
-        return isset($this->start_time) ? $this->start_time : null;
+        return $this->start_time;
     }
 
     public function hasStartTime()
@@ -277,7 +277,7 @@ class TransferOperation extends \Google\Protobuf\Internal\Message
      */
     public function getEndTime()
     {
-        return isset($this->end_time) ? $this->end_time : null;
+        return $this->end_time;
     }
 
     public function hasEndTime()
@@ -339,7 +339,7 @@ class TransferOperation extends \Google\Protobuf\Internal\Message
      */
     public function getCounters()
     {
-        return isset($this->counters) ? $this->counters : null;
+        return $this->counters;
     }
 
     public function hasCounters()

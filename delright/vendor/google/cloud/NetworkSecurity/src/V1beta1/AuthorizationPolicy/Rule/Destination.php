@@ -169,7 +169,7 @@ class Destination extends \Google\Protobuf\Internal\Message
      */
     public function getHttpHeaderMatch()
     {
-        return isset($this->http_header_match) ? $this->http_header_match : null;
+        return $this->http_header_match;
     }
 
     public function hasHttpHeaderMatch()
@@ -201,6 +201,4 @@ class Destination extends \Google\Protobuf\Internal\Message
 
 }
 
-// Adding a class alias for backwards compatibility with the previous class name.
-class_alias(Destination::class, \Google\Cloud\NetworkSecurity\V1beta1\AuthorizationPolicy_Rule_Destination::class);
 

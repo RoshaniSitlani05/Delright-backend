@@ -9,15 +9,15 @@ use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\GPBUtil;
 
 /**
- * ## IAM policy analysis query message.
+ * IAM policy analysis query message.
  *
  * Generated from protobuf message <code>google.cloud.asset.v1.IamPolicyAnalysisQuery</code>
  */
 class IamPolicyAnalysisQuery extends \Google\Protobuf\Internal\Message
 {
     /**
-     * Required. The relative name of the root asset. Only resources and IAM policies within
-     * the scope will be analyzed.
+     * Required. The relative name of the root asset. Only resources and IAM
+     * policies within the scope will be analyzed.
      * This can only be an organization number (such as "organizations/123"), a
      * folder number (such as "folders/123"), a project ID (such as
      * "projects/my-project-id"), or a project number (such as "projects/12345").
@@ -67,8 +67,8 @@ class IamPolicyAnalysisQuery extends \Google\Protobuf\Internal\Message
      *     Optional. Data for populating the Message object.
      *
      *     @type string $scope
-     *           Required. The relative name of the root asset. Only resources and IAM policies within
-     *           the scope will be analyzed.
+     *           Required. The relative name of the root asset. Only resources and IAM
+     *           policies within the scope will be analyzed.
      *           This can only be an organization number (such as "organizations/123"), a
      *           folder number (such as "folders/123"), a project ID (such as
      *           "projects/my-project-id"), or a project number (such as "projects/12345").
@@ -94,8 +94,8 @@ class IamPolicyAnalysisQuery extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * Required. The relative name of the root asset. Only resources and IAM policies within
-     * the scope will be analyzed.
+     * Required. The relative name of the root asset. Only resources and IAM
+     * policies within the scope will be analyzed.
      * This can only be an organization number (such as "organizations/123"), a
      * folder number (such as "folders/123"), a project ID (such as
      * "projects/my-project-id"), or a project number (such as "projects/12345").
@@ -113,8 +113,8 @@ class IamPolicyAnalysisQuery extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * Required. The relative name of the root asset. Only resources and IAM policies within
-     * the scope will be analyzed.
+     * Required. The relative name of the root asset. Only resources and IAM
+     * policies within the scope will be analyzed.
      * This can only be an organization number (such as "organizations/123"), a
      * folder number (such as "folders/123"), a project ID (such as
      * "projects/my-project-id"), or a project number (such as "projects/12345").
@@ -143,7 +143,7 @@ class IamPolicyAnalysisQuery extends \Google\Protobuf\Internal\Message
      */
     public function getResourceSelector()
     {
-        return isset($this->resource_selector) ? $this->resource_selector : null;
+        return $this->resource_selector;
     }
 
     public function hasResourceSelector()
@@ -179,7 +179,7 @@ class IamPolicyAnalysisQuery extends \Google\Protobuf\Internal\Message
      */
     public function getIdentitySelector()
     {
-        return isset($this->identity_selector) ? $this->identity_selector : null;
+        return $this->identity_selector;
     }
 
     public function hasIdentitySelector()
@@ -215,7 +215,7 @@ class IamPolicyAnalysisQuery extends \Google\Protobuf\Internal\Message
      */
     public function getAccessSelector()
     {
-        return isset($this->access_selector) ? $this->access_selector : null;
+        return $this->access_selector;
     }
 
     public function hasAccessSelector()
@@ -251,7 +251,7 @@ class IamPolicyAnalysisQuery extends \Google\Protobuf\Internal\Message
      */
     public function getOptions()
     {
-        return isset($this->options) ? $this->options : null;
+        return $this->options;
     }
 
     public function hasOptions()
@@ -287,7 +287,7 @@ class IamPolicyAnalysisQuery extends \Google\Protobuf\Internal\Message
      */
     public function getConditionContext()
     {
-        return isset($this->condition_context) ? $this->condition_context : null;
+        return $this->condition_context;
     }
 
     public function hasConditionContext()

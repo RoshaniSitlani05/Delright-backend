@@ -5,16 +5,14 @@ declare(strict_types=1);
 namespace Kreait\Firebase\Value;
 
 use Kreait\Firebase\Exception\InvalidArgumentException;
-use Kreait\Firebase\Value;
 
-class Uid implements \JsonSerializable, Value
+/**
+ * @internal
+ */
+final class Uid implements \JsonSerializable
 {
-    /** @var string */
-    private $value;
+    private string $value;
 
-    /**
-     * @internal
-     */
     public function __construct(string $value)
     {
         if ($value === '' || \mb_strlen($value) > 128) {
@@ -29,11 +27,14 @@ class Uid implements \JsonSerializable, Value
         return $this->value;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): string
     {
         return $this->value;
     }
 
+    /**
+     * @param self|string $other
+     */
     public function equalsTo($other): bool
     {
         return $this->value === (string) $other;

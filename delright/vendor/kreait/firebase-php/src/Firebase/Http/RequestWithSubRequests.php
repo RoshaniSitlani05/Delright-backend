@@ -1,19 +1,18 @@
 <?php
 
-/** @noinspection ReturnTypeCanBeDeclaredInspection */
-
 declare(strict_types=1);
 
 namespace Kreait\Firebase\Http;
 
 use GuzzleHttp\Psr7\AppendStream;
 use GuzzleHttp\Psr7\Request;
-use function GuzzleHttp\Psr7\stream_for;
+use GuzzleHttp\Psr7\Utils;
 use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 
 /**
+ * @internal
+ *
  * This is basically a Multipart Request, except that in the parts the sub request start lines
  * are injected between the headers and the body.
  *
@@ -28,26 +27,19 @@ final class RequestWithSubRequests implements HasSubRequests, RequestInterface
 {
     use WrappedPsr7Request;
 
-    /** @var string */
-    private $method = 'POST';
+    private string $method = 'POST';
 
-    /** @var string */
-    private $boundary;
+    private string $boundary;
 
-    /** @var array */
-    private $headers;
+    private AppendStream $body;
 
-    /** @var AppendStream */
-    private $body;
-
-    /** @var Requests */
-    private $subRequests;
+    private Requests $subRequests;
 
     /**
      * @param string|UriInterface $uri
      * @param string $version Protocol version
      */
-    public function __construct($uri, Requests $subRequests, $version = '1.1')
+    public function __construct($uri, Requests $subRequests, string $version = '1.1')
     {
         $this->boundary = \sha1(\uniqid('', true));
 
@@ -65,7 +57,6 @@ final class RequestWithSubRequests implements HasSubRequests, RequestInterface
         $this->appendStream("--{$this->boundary}--");
 
         $request = new Request($this->method, $uri, $headers, $this->body, $version);
-
         $contentLength = $request->getBody()->getSize();
         if ($contentLength !== null) {
             $request = $request->withHeader('Content-Length', (string) $contentLength);
@@ -79,7 +70,7 @@ final class RequestWithSubRequests implements HasSubRequests, RequestInterface
         return $this->subRequests;
     }
 
-    private function appendPartForSubRequest(RequestInterface $subRequest)
+    private function appendPartForSubRequest(RequestInterface $subRequest): void
     {
         $this->appendStream("--{$this->boundary}\r\n");
         $this->appendStream($this->subRequestHeadersAsString($subRequest)."\r\n\r\n");
@@ -87,14 +78,9 @@ final class RequestWithSubRequests implements HasSubRequests, RequestInterface
         $this->appendStream($subRequest->getBody()."\r\n");
     }
 
-    private function appendStream($value)
+    private function appendStream(string $value): void
     {
-        // Objects are passed by reference, we want to ensure that they are not changed
-        if ($value instanceof StreamInterface) {
-            $value = (string) $value;
-        }
-
-        $this->body->addStream(stream_for($value));
+        $this->body->addStream(Utils::streamFor($value));
     }
 
     private function subRequestHeadersAsString(RequestInterface $request): string

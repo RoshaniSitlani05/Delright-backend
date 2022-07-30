@@ -20,6 +20,7 @@ namespace Google\Cloud\PubSub;
 use Google\Cloud\Core\ArrayTrait;
 use Google\Cloud\Core\Duration;
 use Google\Cloud\Core\Exception\NotFoundException;
+use Google\Cloud\Core\Exception\BadRequestException;
 use Google\Cloud\Core\Iam\Iam;
 use Google\Cloud\Core\Timestamp;
 use Google\Cloud\Core\TimeTrait;
@@ -85,6 +86,11 @@ class Subscription
     use ValidateTrait;
 
     const MAX_MESSAGES = 1000;
+
+    // The Error Info reason that is used to identify a subscription
+    // with EOD enabled or not
+    const EXACTLY_ONCE_FAILURE_REASON = 'EXACTLY_ONCE_ACKID_FAILURE';
+    const EXACTLY_ONCE_TRANSIENT_FAILURE_PREFIX = 'TRANSIENT_FAILURE';
 
     /**
      * @var ConnectionInterface
@@ -319,6 +325,8 @@ class Subscription
      *     @type Duration|string $retryPolicy.maximumBackoff The maximum delay
      *           between consecutive deliveries of a given message. Value should
      *           be between 0 and 600 seconds. Defaults to 600 seconds.
+     *     @type bool $enableExactlyOnceDelivery Indicates whether to enable
+     *           'Exactly Once Delivery' on the subscription.
      * }
      * @return array An array of subscription info
      * @throws \InvalidArgumentException
@@ -465,6 +473,8 @@ class Subscription
      *     @type Duration|string $retryPolicy.maximumBackoff The maximum delay
      *           between consecutive deliveries of a given message. Value should
      *           be between 0 and 600 seconds. Defaults to 600 seconds.
+     *     @type bool $enableExactlyOnceDelivery Indicates whether to enable
+     *           'Exactly Once Delivery' on the subscription.
      * }
      * @param array $options [optional] {
      *     Configuration options.
@@ -649,9 +659,6 @@ class Subscription
     public function pull(array $options = [])
     {
         $messages = [];
-        $options['returnImmediately'] = isset($options['returnImmediately'])
-            ? $options['returnImmediately']
-            : false;
         $options['maxMessages'] = isset($options['maxMessages'])
             ? $options['maxMessages']
             : self::MAX_MESSAGES;
@@ -722,10 +729,19 @@ class Subscription
     {
         $this->validateBatch($messages, Message::class);
 
-        $this->connection->acknowledge($options + [
-            'subscription' => $this->name,
-            'ackIds' => $this->getMessageAckIds($messages)
-        ]);
+        // the rpc may throw errors for a sub with EOD enabled
+        // but we don't act on the exception to maintain compatibility
+        try {
+            $this->connection->acknowledge($options + [
+                'subscription' => $this->name,
+                'ackIds' => $this->getMessageAckIds($messages)
+            ]);
+        } catch (BadRequestException $e) {
+            // bubble up the error if the exception isn't an EOD exception
+            if (!$this->isExceptionExactlyOnce($e)) {
+                throw $e;
+            }
+        }
     }
 
     /**
@@ -806,11 +822,20 @@ class Subscription
     {
         $this->validateBatch($messages, Message::class);
 
-        $this->connection->modifyAckDeadline($options + [
-            'subscription' => $this->name,
-            'ackIds' => $this->getMessageAckIds($messages),
-            'ackDeadlineSeconds' => $seconds
-        ]);
+        // the rpc may throw errors for a sub with EOD enabled
+        // but we don't act on the exception to maintain compatibility
+        try {
+            $this->connection->modifyAckDeadline($options + [
+                'subscription' => $this->name,
+                'ackIds' => $this->getMessageAckIds($messages),
+                'ackDeadlineSeconds' => $seconds
+            ]);
+        } catch (BadRequestException $e) {
+            // bubble up the error if the exception isn't an EOD exception
+            if (!$this->isExceptionExactlyOnce($e)) {
+                throw $e;
+            }
+        }
     }
 
     /**
@@ -1036,6 +1061,20 @@ class Subscription
     }
 
     /**
+     * Checks if a given exception failure is because of
+     * an EOD failure.
+     *
+     * @param BadRequestException $e
+     * @return boolean
+     */
+    private function isExceptionExactlyOnce(BadRequestException $e)
+    {
+        $reason = $e->getReason();
+
+        return $reason === self::EXACTLY_ONCE_FAILURE_REASON;
+    }
+
+    /**
      * Present a nicer debug result to people using php 5.6 or greater.
      * @return array
      * @codeCoverageIgnore
@@ -1050,5 +1089,30 @@ class Subscription
             'info' => $this->info,
             'connection' => get_class($this->connection)
         ];
+    }
+
+    /**
+     * Returns the temporarily failed ackIds from the exception object
+     *
+     * @param BadRequestException
+     * @return array
+     */
+    private function getRetryableAckIds(BadRequestException $e)
+    {
+        $metadata = $e->getErrorInfoMetadata();
+        $ackIds = [];
+
+        // EOD enabled subscription
+        if ($this->isExceptionExactlyOnce($e)) {
+            foreach ($metadata as $ackId => $failureReason) {
+                // check if the prefix of the failure reason is same as
+                // the transient failure for EOD enabled subscriptions
+                if (strpos($failureReason, self::EXACTLY_ONCE_TRANSIENT_FAILURE_PREFIX) === 0) {
+                    $ackIds[] = $ackId;
+                }
+            }
+        }
+
+        return $ackIds;
     }
 }

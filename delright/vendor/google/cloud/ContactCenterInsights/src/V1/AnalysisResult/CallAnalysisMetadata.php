@@ -215,7 +215,7 @@ class CallAnalysisMetadata extends \Google\Protobuf\Internal\Message
      */
     public function getIssueModelResult()
     {
-        return isset($this->issue_model_result) ? $this->issue_model_result : null;
+        return $this->issue_model_result;
     }
 
     public function hasIssueModelResult()
@@ -245,6 +245,4 @@ class CallAnalysisMetadata extends \Google\Protobuf\Internal\Message
 
 }
 
-// Adding a class alias for backwards compatibility with the previous class name.
-class_alias(CallAnalysisMetadata::class, \Google\Cloud\ContactCenterInsights\V1\AnalysisResult_CallAnalysisMetadata::class);
 

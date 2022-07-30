@@ -67,6 +67,7 @@ class JobConfig extends \Google\Protobuf\Internal\Message
     private $pubsub_destination = null;
     /**
      * List of output sprite sheets.
+     * Spritesheets require at least one VideoStream in the Jobconfig.
      *
      * Generated from protobuf field <code>repeated .google.cloud.video.transcoder.v1.SpriteSheet sprite_sheets = 9;</code>
      */
@@ -104,6 +105,7 @@ class JobConfig extends \Google\Protobuf\Internal\Message
      *           Destination on Pub/Sub.
      *     @type \Google\Cloud\Video\Transcoder\V1\SpriteSheet[]|\Google\Protobuf\Internal\RepeatedField $sprite_sheets
      *           List of output sprite sheets.
+     *           Spritesheets require at least one VideoStream in the Jobconfig.
      *     @type \Google\Cloud\Video\Transcoder\V1\Overlay[]|\Google\Protobuf\Internal\RepeatedField $overlays
      *           List of overlays on the output video, in descending Z-order.
      * }
@@ -253,7 +255,7 @@ class JobConfig extends \Google\Protobuf\Internal\Message
      */
     public function getOutput()
     {
-        return isset($this->output) ? $this->output : null;
+        return $this->output;
     }
 
     public function hasOutput()
@@ -317,7 +319,7 @@ class JobConfig extends \Google\Protobuf\Internal\Message
      */
     public function getPubsubDestination()
     {
-        return isset($this->pubsub_destination) ? $this->pubsub_destination : null;
+        return $this->pubsub_destination;
     }
 
     public function hasPubsubDestination()
@@ -347,6 +349,7 @@ class JobConfig extends \Google\Protobuf\Internal\Message
 
     /**
      * List of output sprite sheets.
+     * Spritesheets require at least one VideoStream in the Jobconfig.
      *
      * Generated from protobuf field <code>repeated .google.cloud.video.transcoder.v1.SpriteSheet sprite_sheets = 9;</code>
      * @return \Google\Protobuf\Internal\RepeatedField
@@ -358,6 +361,7 @@ class JobConfig extends \Google\Protobuf\Internal\Message
 
     /**
      * List of output sprite sheets.
+     * Spritesheets require at least one VideoStream in the Jobconfig.
      *
      * Generated from protobuf field <code>repeated .google.cloud.video.transcoder.v1.SpriteSheet sprite_sheets = 9;</code>
      * @param \Google\Cloud\Video\Transcoder\V1\SpriteSheet[]|\Google\Protobuf\Internal\RepeatedField $var

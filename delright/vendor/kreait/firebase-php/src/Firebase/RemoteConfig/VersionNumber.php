@@ -5,17 +5,19 @@ declare(strict_types=1);
 namespace Kreait\Firebase\RemoteConfig;
 
 use Kreait\Firebase\Exception\InvalidArgumentException;
-use Kreait\Firebase\Value;
 
-final class VersionNumber implements \JsonSerializable, Value
+final class VersionNumber implements \JsonSerializable
 {
-    /** @var string */
-    private $value;
+    private string $value;
 
-    private function __construct()
+    private function __construct(string $value)
     {
+        $this->value = $value;
     }
 
+    /**
+     * @param int|string $value
+     */
     public static function fromValue($value): self
     {
         $valueString = (string) $value;
@@ -24,10 +26,7 @@ final class VersionNumber implements \JsonSerializable, Value
             throw new InvalidArgumentException('A version number should only consist of digits');
         }
 
-        $new = new self();
-        $new->value = $valueString;
-
-        return $new;
+        return new self($valueString);
     }
 
     public function __toString()
@@ -35,16 +34,16 @@ final class VersionNumber implements \JsonSerializable, Value
         return $this->value;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): string
     {
         return $this->value;
     }
 
+    /**
+     * @param self|string $other
+     */
     public function equalsTo($other): bool
     {
-        $a = $this->value;
-        $b = (string) $other;
-
         return $this->value === (string) $other;
     }
 }

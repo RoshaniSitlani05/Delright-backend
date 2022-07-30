@@ -4,84 +4,70 @@ declare(strict_types=1);
 
 namespace Kreait\Laravel\Firebase;
 
-use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Container\Container;
 use Kreait\Firebase;
+use Laravel\Lumen\Application as Lumen;
 
 final class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
-        if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__ . '/../config/firebase.php' => $this->app->configPath('firebase.php'),
-            ], 'config');
+        // @codeCoverageIgnoreStart
+        if (!$this->app->runningInConsole()) {
+            return;
         }
+
+        if ($this->app instanceof Lumen) {
+            return;
+        }
+        // @codeCoverageIgnoreEnd
+
+        $this->publishes([
+            __DIR__.'/../config/firebase.php' => $this->app->configPath('firebase.php'),
+        ], 'config');
     }
 
-    public function register()
+    public function register(): void
     {
+        // @codeCoverageIgnoreStart
+        if ($this->app instanceof Lumen) {
+            $this->app->configure('firebase');
+        }
+        // @codeCoverageIgnoreEnd
+
         $this->mergeConfigFrom(__DIR__.'/../config/firebase.php', 'firebase');
 
+        $this->registerManager();
         $this->registerComponents();
     }
 
-    private function registerComponents()
+    private function registerComponents(): void
     {
-        $this->app->singleton(Firebase\Factory::class, static function (Application $app) {
-            $factory = new Firebase\Factory();
+        $this->app->singleton(Firebase\Contract\Auth::class, static fn (Container $app) => $app->make(FirebaseProjectManager::class)->project()->auth());
+        $this->app->alias(Firebase\Contract\Auth::class, 'firebase.auth');
 
-            $config = $app->make('config')['firebase'];
+        $this->app->singleton(Firebase\Contract\Database::class, static fn (Container $app) => $app->make(FirebaseProjectManager::class)->project()->database());
+        $this->app->alias(Firebase\Contract\Database::class, 'firebase.database');
 
-            if ($credentialsFile = $config['credentials']['file'] ?? null) {
-                $serviceAccount = Firebase\ServiceAccount::fromJsonFile((string) $credentialsFile);
-                $factory = $factory->withServiceAccount($serviceAccount);
-            }
+        $this->app->singleton(Firebase\Contract\DynamicLinks::class, static fn (Container $app) => $app->make(FirebaseProjectManager::class)->project()->dynamicLinks());
+        $this->app->alias(Firebase\Contract\DynamicLinks::class, 'firebase.dynamic_links');
 
-            $enableAutoDiscovery = $config['credentials']['auto_discovery'] ?? true;
-            if (!$enableAutoDiscovery) {
-                $factory = $factory->withDisabledAutoDiscovery();
-            }
+        $this->app->singleton(Firebase\Contract\Firestore::class, static fn (Container $app) => $app->make(FirebaseProjectManager::class)->project()->firestore());
+        $this->app->alias(Firebase\Contract\Firestore::class, 'firebase.firestore');
 
-            if ($databaseUrl = $config['database']['url'] ?? null) {
-                $factory = $factory->withDatabaseUri($databaseUrl);
-            }
+        $this->app->singleton(Firebase\Contract\Messaging::class, static fn (Container $app) => $app->make(FirebaseProjectManager::class)->project()->messaging());
+        $this->app->alias(Firebase\Contract\Messaging::class, 'firebase.messaging');
 
-            if ($defaultStorageBucket = $config['storage']['default_bucket'] ?? null) {
-                $factory = $factory->withDefaultStorageBucket($defaultStorageBucket);
-            }
+        $this->app->singleton(Firebase\Contract\RemoteConfig::class, static fn (Container $app) => $app->make(FirebaseProjectManager::class)->project()->remoteConfig());
+        $this->app->alias(Firebase\Contract\RemoteConfig::class, 'firebase.remote_config');
 
-            if ($cacheStore = $config['cache_store'] ?? null) {
-                $factory = $factory->withVerifierCache(
-                    $app->make('cache')->store($cacheStore)
-                );
-            }
+        $this->app->singleton(Firebase\Contract\Storage::class, static fn (Container $app) => $app->make(FirebaseProjectManager::class)->project()->storage());
+        $this->app->alias(Firebase\Contract\Storage::class, 'firebase.storage');
+    }
 
-            return $factory;
-        });
-
-        $this->app->singleton(Firebase\Auth::class, static function (Application $app) {
-            return $app->make(Firebase\Factory::class)->createAuth();
-        });
-        $this->app->alias(Firebase\Auth::class, 'firebase.auth');
-
-        $this->app->singleton(Firebase\Database::class, static function (Application $app) {
-            return $app->make(Firebase\Factory::class)->createDatabase();
-        });
-        $this->app->alias(Firebase\Database::class, 'firebase.database');
-
-        $this->app->singleton(Firebase\Messaging::class, static function (Application $app) {
-            return $app->make(Firebase\Factory::class)->createMessaging();
-        });
-        $this->app->alias(Firebase\Messaging::class, 'firebase.messaging');
-
-        $this->app->singleton(Firebase\RemoteConfig::class, static function (Application $app) {
-            return $app->make(Firebase\Factory::class)->createRemoteConfig();
-        });
-        $this->app->alias(Firebase\RemoteConfig::class, 'firebase.remote_config');
-
-        $this->app->singleton(Firebase\Storage::class, static function (Application $app) {
-            return $app->make(Firebase\Factory::class)->createStorage();
-        });
-        $this->app->alias(Firebase\Storage::class, 'firebase.storage');
+    private function registerManager(): void
+    {
+        $this->app->singleton(FirebaseProjectManager::class, static fn (Container $app) => new FirebaseProjectManager($app));
+        $this->app->alias(FirebaseProjectManager::class, 'firebase.manager');
     }
 }

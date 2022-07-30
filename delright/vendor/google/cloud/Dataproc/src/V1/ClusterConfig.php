@@ -137,15 +137,6 @@ class ClusterConfig extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>.google.cloud.dataproc.v1.MetastoreConfig metastore_config = 20 [(.google.api.field_behavior) = OPTIONAL];</code>
      */
     private $metastore_config = null;
-    /**
-     * Optional. BETA. The Kubernetes Engine config for Dataproc clusters deployed to
-     * Kubernetes. Setting this is considered mutually exclusive with Compute
-     * Engine-based options such as `gce_cluster_config`, `master_config`,
-     * `worker_config`, `secondary_worker_config`, and `autoscaling_config`.
-     *
-     * Generated from protobuf field <code>.google.cloud.dataproc.v1.GkeClusterConfig gke_cluster_config = 21 [(.google.api.field_behavior) = OPTIONAL];</code>
-     */
-    private $gke_cluster_config = null;
 
     /**
      * Constructor.
@@ -219,11 +210,6 @@ class ClusterConfig extends \Google\Protobuf\Internal\Message
      *           Optional. Port/endpoint configuration for this cluster
      *     @type \Google\Cloud\Dataproc\V1\MetastoreConfig $metastore_config
      *           Optional. Metastore configuration.
-     *     @type \Google\Cloud\Dataproc\V1\GkeClusterConfig $gke_cluster_config
-     *           Optional. BETA. The Kubernetes Engine config for Dataproc clusters deployed to
-     *           Kubernetes. Setting this is considered mutually exclusive with Compute
-     *           Engine-based options such as `gce_cluster_config`, `master_config`,
-     *           `worker_config`, `secondary_worker_config`, and `autoscaling_config`.
      * }
      */
     public function __construct($data = NULL) {
@@ -336,7 +322,7 @@ class ClusterConfig extends \Google\Protobuf\Internal\Message
      */
     public function getGceClusterConfig()
     {
-        return isset($this->gce_cluster_config) ? $this->gce_cluster_config : null;
+        return $this->gce_cluster_config;
     }
 
     public function hasGceClusterConfig()
@@ -374,7 +360,7 @@ class ClusterConfig extends \Google\Protobuf\Internal\Message
      */
     public function getMasterConfig()
     {
-        return isset($this->master_config) ? $this->master_config : null;
+        return $this->master_config;
     }
 
     public function hasMasterConfig()
@@ -412,7 +398,7 @@ class ClusterConfig extends \Google\Protobuf\Internal\Message
      */
     public function getWorkerConfig()
     {
-        return isset($this->worker_config) ? $this->worker_config : null;
+        return $this->worker_config;
     }
 
     public function hasWorkerConfig()
@@ -450,7 +436,7 @@ class ClusterConfig extends \Google\Protobuf\Internal\Message
      */
     public function getSecondaryWorkerConfig()
     {
-        return isset($this->secondary_worker_config) ? $this->secondary_worker_config : null;
+        return $this->secondary_worker_config;
     }
 
     public function hasSecondaryWorkerConfig()
@@ -487,7 +473,7 @@ class ClusterConfig extends \Google\Protobuf\Internal\Message
      */
     public function getSoftwareConfig()
     {
-        return isset($this->software_config) ? $this->software_config : null;
+        return $this->software_config;
     }
 
     public function hasSoftwareConfig()
@@ -571,7 +557,7 @@ class ClusterConfig extends \Google\Protobuf\Internal\Message
      */
     public function getEncryptionConfig()
     {
-        return isset($this->encryption_config) ? $this->encryption_config : null;
+        return $this->encryption_config;
     }
 
     public function hasEncryptionConfig()
@@ -608,7 +594,7 @@ class ClusterConfig extends \Google\Protobuf\Internal\Message
      */
     public function getAutoscalingConfig()
     {
-        return isset($this->autoscaling_config) ? $this->autoscaling_config : null;
+        return $this->autoscaling_config;
     }
 
     public function hasAutoscalingConfig()
@@ -645,7 +631,7 @@ class ClusterConfig extends \Google\Protobuf\Internal\Message
      */
     public function getSecurityConfig()
     {
-        return isset($this->security_config) ? $this->security_config : null;
+        return $this->security_config;
     }
 
     public function hasSecurityConfig()
@@ -681,7 +667,7 @@ class ClusterConfig extends \Google\Protobuf\Internal\Message
      */
     public function getLifecycleConfig()
     {
-        return isset($this->lifecycle_config) ? $this->lifecycle_config : null;
+        return $this->lifecycle_config;
     }
 
     public function hasLifecycleConfig()
@@ -717,7 +703,7 @@ class ClusterConfig extends \Google\Protobuf\Internal\Message
      */
     public function getEndpointConfig()
     {
-        return isset($this->endpoint_config) ? $this->endpoint_config : null;
+        return $this->endpoint_config;
     }
 
     public function hasEndpointConfig()
@@ -753,7 +739,7 @@ class ClusterConfig extends \Google\Protobuf\Internal\Message
      */
     public function getMetastoreConfig()
     {
-        return isset($this->metastore_config) ? $this->metastore_config : null;
+        return $this->metastore_config;
     }
 
     public function hasMetastoreConfig()
@@ -777,48 +763,6 @@ class ClusterConfig extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkMessage($var, \Google\Cloud\Dataproc\V1\MetastoreConfig::class);
         $this->metastore_config = $var;
-
-        return $this;
-    }
-
-    /**
-     * Optional. BETA. The Kubernetes Engine config for Dataproc clusters deployed to
-     * Kubernetes. Setting this is considered mutually exclusive with Compute
-     * Engine-based options such as `gce_cluster_config`, `master_config`,
-     * `worker_config`, `secondary_worker_config`, and `autoscaling_config`.
-     *
-     * Generated from protobuf field <code>.google.cloud.dataproc.v1.GkeClusterConfig gke_cluster_config = 21 [(.google.api.field_behavior) = OPTIONAL];</code>
-     * @return \Google\Cloud\Dataproc\V1\GkeClusterConfig|null
-     */
-    public function getGkeClusterConfig()
-    {
-        return isset($this->gke_cluster_config) ? $this->gke_cluster_config : null;
-    }
-
-    public function hasGkeClusterConfig()
-    {
-        return isset($this->gke_cluster_config);
-    }
-
-    public function clearGkeClusterConfig()
-    {
-        unset($this->gke_cluster_config);
-    }
-
-    /**
-     * Optional. BETA. The Kubernetes Engine config for Dataproc clusters deployed to
-     * Kubernetes. Setting this is considered mutually exclusive with Compute
-     * Engine-based options such as `gce_cluster_config`, `master_config`,
-     * `worker_config`, `secondary_worker_config`, and `autoscaling_config`.
-     *
-     * Generated from protobuf field <code>.google.cloud.dataproc.v1.GkeClusterConfig gke_cluster_config = 21 [(.google.api.field_behavior) = OPTIONAL];</code>
-     * @param \Google\Cloud\Dataproc\V1\GkeClusterConfig $var
-     * @return $this
-     */
-    public function setGkeClusterConfig($var)
-    {
-        GPBUtil::checkMessage($var, \Google\Cloud\Dataproc\V1\GkeClusterConfig::class);
-        $this->gke_cluster_config = $var;
 
         return $this;
     }

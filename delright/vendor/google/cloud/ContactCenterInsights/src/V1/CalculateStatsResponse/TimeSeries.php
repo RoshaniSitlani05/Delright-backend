@@ -57,7 +57,7 @@ class TimeSeries extends \Google\Protobuf\Internal\Message
      */
     public function getIntervalDuration()
     {
-        return isset($this->interval_duration) ? $this->interval_duration : null;
+        return $this->interval_duration;
     }
 
     public function hasIntervalDuration()
@@ -117,6 +117,4 @@ class TimeSeries extends \Google\Protobuf\Internal\Message
 
 }
 
-// Adding a class alias for backwards compatibility with the previous class name.
-class_alias(TimeSeries::class, \Google\Cloud\ContactCenterInsights\V1\CalculateStatsResponse_TimeSeries::class);
 

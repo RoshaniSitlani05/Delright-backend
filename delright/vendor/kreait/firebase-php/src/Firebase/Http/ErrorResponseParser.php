@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Kreait\Firebase\Http;
 
-use InvalidArgumentException;
-use Kreait\Firebase\Util\JSON;
+use Beste\Json;
 use Psr\Http\Message\ResponseInterface;
+use UnexpectedValueException;
 
+/**
+ * @internal
+ */
 final class ErrorResponseParser
 {
     public function getErrorReasonFromResponse(ResponseInterface $response): string
@@ -15,8 +18,8 @@ final class ErrorResponseParser
         $responseBody = (string) $response->getBody();
 
         try {
-            $data = JSON::decode($responseBody, true);
-        } catch (InvalidArgumentException $e) {
+            $data = Json::decode($responseBody, true);
+        } catch (UnexpectedValueException $e) {
             return $responseBody;
         }
 
@@ -31,11 +34,14 @@ final class ErrorResponseParser
         return $responseBody;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getErrorsFromResponse(ResponseInterface $response): array
     {
         try {
-            return JSON::decode((string) $response->getBody(), true);
-        } catch (\InvalidArgumentException $e) {
+            return Json::decode((string) $response->getBody(), true);
+        } catch (UnexpectedValueException $e) {
             return [];
         }
     }

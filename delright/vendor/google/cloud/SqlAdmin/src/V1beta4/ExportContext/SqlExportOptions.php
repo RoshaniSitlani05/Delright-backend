@@ -90,7 +90,7 @@ class SqlExportOptions extends \Google\Protobuf\Internal\Message
      */
     public function getSchemaOnly()
     {
-        return isset($this->schema_only) ? $this->schema_only : null;
+        return $this->schema_only;
     }
 
     public function hasSchemaOnly()
@@ -151,7 +151,7 @@ class SqlExportOptions extends \Google\Protobuf\Internal\Message
      */
     public function getMysqlExportOptions()
     {
-        return isset($this->mysql_export_options) ? $this->mysql_export_options : null;
+        return $this->mysql_export_options;
     }
 
     public function hasMysqlExportOptions()
@@ -179,6 +179,4 @@ class SqlExportOptions extends \Google\Protobuf\Internal\Message
 
 }
 
-// Adding a class alias for backwards compatibility with the previous class name.
-class_alias(SqlExportOptions::class, \Google\Cloud\Sql\V1beta4\ExportContext_SqlExportOptions::class);
 

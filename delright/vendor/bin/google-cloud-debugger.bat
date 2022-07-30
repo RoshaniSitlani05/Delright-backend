@@ -1,4 +1,5 @@
 @ECHO OFF
 setlocal DISABLEDELAYEDEXPANSION
-SET BIN_TARGET=%~dp0/../google/cloud/Debugger/bin/google-cloud-debugger
+SET BIN_TARGET=%~dp0/google-cloud-debugger
+SET COMPOSER_RUNTIME_BIN_DIR=%~dp0
 php "%BIN_TARGET%" %*
