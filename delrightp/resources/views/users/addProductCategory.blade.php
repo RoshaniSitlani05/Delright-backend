@@ -1,7 +1,7 @@
 @extends('layouts.main') 
-@section('title', 'Shop Category')
+@section('title', 'Product Category')
 @section('content')
-<!--<script src="js/app.js"></script>-->
+<script src="js/app.js"></script>
  <div class="container-fluid">
      <div class="page-header">
             <div class="row align-items-end">
@@ -9,7 +9,7 @@
                     <div class="page-header-title">
                         <i class="ik ik-inbox bg-blue"></i>
                         <div class="d-inline">
-                            <h5>{{ __('Update Shop Category')}}</h5>
+                            <h5>{{ __('Add Product Category')}}</h5>
                         </div>
                     </div>
                 </div>
@@ -20,7 +20,7 @@
                                 <a href="{{route('home')}}"><i class="ik ik-home"></i></a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">Shop Categories</a>
+                                <a href="#">Product Categories</a>
                             </li>
                             
                         </ol>
@@ -32,7 +32,7 @@
      
         <div class="page-header">
              <div class="row">
-                {{--<div class="col-lg-6 col-md-6">
+                <div class="col-lg-5 col-md-5">
                     <div class="card">
                         <div class="card-header">
                             @if (Session::has('flash_message'))
@@ -44,8 +44,21 @@
                         </div>
                                 
                         <div class="card-body">
-                            <form class="form-horizontal" method="post" action="{{ route('InsertCatrgory') }}" enctype="multipart/form-data">
+                            <form class="form-horizontal" method="post" action="{{ route('InsertProductCategory') }}" enctype="multipart/form-data">
                                 {{ csrf_field() }}
+                                <label class="control-label" for="shop_category">Shop Category</label>
+                                 <select class="form-control" name="shop_category">
+                                        <option value="">Select category</option>
+                                    @foreach ($category as $cate)
+                                        <option value="{{ $cate->id }}">{{ $cate->name }}</option>
+                                    @endforeach
+                               </select>
+                               @if ($errors->has('shop_category'))
+                                    <span style="color:#fb0303">
+                                        {{ $errors->first('shop_category') }}
+                                    </span>
+                                @endif
+                                <br>
                                 <label class="control-label" for="name">Category Name</label>
                                  <input type="text" class="form-control" name="name" required>
                                  @if ($errors->has('name'))
@@ -54,11 +67,11 @@
                                     </span>
                                 @endif
                                 <br>
-                                <label class="control-label" for="name">Image</label>
-                                 <input type="file" class="form-control" name="image" required>
-                                 @if ($errors->has('image'))
+                                 <label class="control-label" for="name">Service Charge</label>
+                                 <input type="text" class="form-control" name="service_charge" required>
+                                 @if ($errors->has('service_charge'))
                                     <span style="color:#fb0303">
-                                        {{ $errors->first('image') }}
+                                        {{ $errors->first('service_charge') }}
                                     </span>
                                 @endif
                                 <br>
@@ -66,36 +79,38 @@
                             </form>
                         </div>
                     </div>
-                </div>--}}
+                </div>
                 
-                   <div class="col-lg-12 col-md-12">
+                   <div class="col-lg-7 col-md-7">
                     <div class="card">
                         <div class="card-body">
                             <table class="table" style="margin-bottom:20px;">
                                 <th>id</th>
-                                <th>Name</th>
+                                <th>Shop Category</th>
+                                <th>Category</th>
                                 <th>Service Charge</th>
-                                <th>image</th>
-                                @foreach ($category as $cate)
+                                <th>#</th>
+                                <th>#</th>
+                                @foreach ($productCategory as $cate)
                                 <tr>
-                                    <td>{{ $cate->id }}</td>
+                                    <td>{{ $cate->product_cate_id }}</td>
                                     <td>{{ $cate->name }}</td>
+                                    <td>{{ $cate->product_cate_name }}</td>
                                     <td>{{ $cate->service_charge }}</td>
-                                    <td><img src="{{ URL::asset('../storage/app/'.$cate->image) }}" class="img-fluid img-50" alt=""></td>
+                                    
+                                    <td><a href="getProductCategory/{{$cate->product_cate_id}}"><i class="fa fa-edit"></i></a></td>
                                     <td>
-                                        <a href="getCategory/{{$cate->id}}"><i class="fa fa-edit"></i></a>
-                                        @if ($cate->consumable == 1)
-                                                <a style="color: white;" href="{{ URL::to('shopCategoryStatus/'.$cate->id.'/'.$cate->consumable) }}" class="btn btn-success">Consumable to Fssai</a>
-                                            @else
-                                                <a style="color: white;" href="{{ URL::to('shopCategoryStatus/'.$cate->id.'/'.$cate->consumable) }}" class="btn btn-danger">Not Consumable</a>
-                                            @endif
-                                            
+                                    @if ($cate->status == 1)
+                                        <a style="color: white;" href="{{ URL::to('ProductCategoryStatus/'.$cate->id.'/'.$cate->status) }}" class="btn btn-success">Active</a>
+                                    @else
+                                        <a style="color: white;" href="{{ URL::to('ProductCategoryStatus/'.$cate->id.'/'.$cate->status) }}" class="btn btn-danger">InActive</a>
+                                    @endif
                                     </td>
-                                    {{--<td><a href="deleteCategory/{{$cate->id}}"><i class="fa fa-trash"></i></a></td>--}}
+                                    {{--<td><a href="deleteProductCategory/{{$cate->product_cate_id}}"><i class="fa fa-trash"></i></a></td>--}}
                                 </tr>  
                                 @endforeach
                             </table>
-                             {!! $category->links() !!} 
+                             {!! $productCategory->links() !!} 
                         </div>
                     </div>
                 </div>

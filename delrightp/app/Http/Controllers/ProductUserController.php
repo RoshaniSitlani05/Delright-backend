@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\products;
 use App\Models\ratings;
+use App\Models\Settings;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\vendor_details;
+use App\Models\UserReviews;
 
 class ProductUserController extends Controller
-{
-
+{ 
     public function __construct()
     {
         $this->middleware('auth:api');
@@ -87,6 +89,12 @@ class ProductUserController extends Controller
 
     public function search(Request $request)
     {
+        $shops = vendor_details::select('users.name', 'users.email', 'vendor_details.*','categories.consumable')
+            ->leftjoin('categories', 'categories.id', '=', 'vendor_details.category')
+            ->leftjoin('users', 'vendor_details.id', '=', 'users.id')
+            ->where('vendor_details.shop_name', 'like', '%' . $request->search . '%')
+            ->paginate(10);
+            
         $products = products::select(DB::raw(
             "products.*,
         products.created_at as posted_date,
@@ -105,8 +113,8 @@ class ProductUserController extends Controller
             ->leftjoin('users', 'users.id', '=', 'products.seller_id')
             ->where('products.name', 'like', '%' . $request->search . '%')
             ->paginate(10);
-        $products->makeHidden(['created_at', 'updated_at', 'id']);
-        return $products;
+        // $shops->makeHidden(['created_at', 'updated_at', 'id']);
+        return $shops;
     }
     public function filter(Request $request)
     {
@@ -191,14 +199,22 @@ class ProductUserController extends Controller
 
     public function productsBycategoryShop($cateid, $shopid)
     {
+        $setting = Settings::Where(['id' => 1])->get();
+        $servicecharge = $setting[0]->service_charge;
+        $details = [];
         $shopDetails = User::select('users.name', 'vendor_details.*')
             ->where('users.id', $shopid)
             ->leftjoin('vendor_details', 'vendor_details.id', '=', 'users.id')
             ->first();
+            
+        $shopreviews = UserReviews::select('review','rating')
+                        ->where('vendor_id', $shopid)->get();
+                        
         $productsCate = DB::table('product_category')->where('category', $shopDetails->category)->get();
         foreach ($productsCate as $pc) {
             $products = products::select(DB::raw(
                 "products.*,
+                products.id as product_id,
         products.created_at as posted_date,
         products_images.*,
         product_category.name as category_name,
@@ -217,14 +233,30 @@ class ProductUserController extends Controller
                 ->where('products.seller_id', '=', $shopid)
                 ->get();
             $products->makeHidden(['created_at', 'updated_at', 'id']);
+            foreach($products as $key => $data){
+                $product_id = $data->product_id;
+                $review = [];
+                
+                $review = UserReviews::select('review','rating')
+                            ->where('product_id', $product_id)->count();
+                
+                if($review != 0){
+                    $reviews[$product_id] = UserReviews::select('review','rating')
+                                        ->where('product_id', $product_id)->get();
+                                
+                }
+                
+                
+            }
+
             $details[] = [
                 $pc->name =>  $products
             ];
         }
         //$details = (object) $details;
         $details = json_decode(json_encode($details));
-
-        return response()->json(['shop_details' => $shopDetails, 'products' => $details]);
+        
+        return response()->json(['shop_details' => $shopDetails, 'shopreviews' => $shopreviews, 'products' => $details, 'product_reviews' => $review, 'servicecharge' => $servicecharge]);
 
         return $products;
     }

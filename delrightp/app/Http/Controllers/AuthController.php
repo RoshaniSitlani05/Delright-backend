@@ -9,8 +9,11 @@ use App\Models\Settings;
 use App\Http\Controllers\API\BaseController as BaseController;
 use Illuminate\Support\Facades\Auth;
 use HasApiTokens;
+use App\Models\ProductCategory;
 use Illuminate\Support\Facades\Hash;
 use Validator;
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthController extends Controller
 {
@@ -62,9 +65,14 @@ class AuthController extends Controller
         if (auth()->attempt($data)) {
             $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
             User::where('email', $request->email)->update(['fcm_token' => $request->fcm_token]);
+            
+            $userData = User::where('email', $request->email)->get();
+            
             $success['token'] = $token;
             $success['role'] = $request->role;
             $success['fcm_token'] = $request->fcm_token;
+            $success['status'] = $userData[0]->status;
+            
 
             return response()->json([
                 'successMsg' => 'SuccessFully Logged IN', 'details' => auth()->user(), 'details' => $success
@@ -190,4 +198,109 @@ class AuthController extends Controller
         }
         return response()->json(['cod' => $cod]);
     }
+    
+    // public function getServiceCharge($catid)
+    // {
+    //     $product = ProductCategory::findOrFail($catid);
+        
+    //     // $setting = Settings::Where(['id' => 1])->get();
+    //     $ServiceCharge = $product->service_charge;
+        
+    //     return response()->json(['ServiceCharge' => $ServiceCharge]);
+    // }
+    
+    
+     //in Object data, not in array.
+    public function getServiceCharge()
+    {
+        // $product = ProductCategory::findOrFail($catid);
+        
+        $setting = Settings::Where(['id' => 1])->get();
+        $ServiceCharge = $setting[0]->service_charge;
+        
+        return response()->json(['ServiceCharge' => $ServiceCharge]);
+    }
+   
+    
+    public function getDeliveryServiceCharge()
+    {
+        $setting = Settings::Where(['id' => 1])->get();
+        $ServiceCharge = $setting[0]->delivery_service_charge;
+        
+        return response()->json(['DeliveryServiceCharge' => $ServiceCharge]);
+    }
+    
+    public function checkCouponCode($code)
+    {
+        $setting = Settings::Where(['id' => 1])->get();
+        $coupon_code = $setting[0]['coupon_code'];
+        $coupon_discount = $setting[0]['coupon_discount'];
+        if($coupon_code == $code){
+            return response()->json(['coupon_discount' => $coupon_discount]);    
+        }else{
+            return response()->json(['coupon_discount' => NULL]);    
+        }
+        
+    }
+    
+
+    public function authenticate(Request $request) { 
+        $phone_number = $request->input('phone_number');
+        $user = User::where('phone_number', '=', $phone_number)->first();
+        try { 
+            // verify the credentials and create a token for the user
+            if (! $token = JWTAuth::fromUser($user)) { 
+                return response()->json(['error' => 'invalid_credentials'], 401);
+            } 
+        } catch (JWTException $e) { 
+            // something went wrong 
+            return response()->json(['error' => 'could_not_create_token'], 500); 
+        } 
+        // if no errors are encountered we can return a JWT 
+        return response()->json(compact('token')); 
+    }
+
+    public function registerauthenticate(Request $request) { 
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'phone_number'=>'required|min:10|unique:users'
+            ],
+            [
+                'phone_number.unique'=>'sorry this phone number is already registred',
+                'phone_number.min'=>'invalid phonenumber',
+                'phone_number.required'=>'we need your phone number for registration',
+            ]
+        );
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return response()->json(['validateError' => $errors], 200);
+        }
+        
+        $user = new User;
+        $user->phone_number = $request->phone_number;
+        $user->role = $request->role;
+        $result = $user->save();
+
+        $phone_number = $request->input('phone_number');
+        $user = User::where('phone_number', '=', $phone_number)->first();
+        try { 
+            // verify the credentials and create a token for the user
+            if (! $token = JWTAuth::fromUser($user)) { 
+                return response()->json(['error' => 'invalid_credentials'], 401);
+            } 
+        } catch (JWTException $e) { 
+            // something went wrong 
+            return response()->json(['error' => 'could_not_create_token'], 500); 
+        } 
+        // if no errors are encountered we can return a JWT 
+        return response()->json(compact('token')); 
+
+        
+        if ($result == true) {
+            $token = $user->createToken('LaravelAuthApp')->accessToken;
+            return response()->json(['success' => 'message', 'details' => $token, 'fcm_token' => $request->fcm_token]);
+        }
+        
+    }    
 }

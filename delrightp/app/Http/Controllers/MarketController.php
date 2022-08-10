@@ -24,7 +24,9 @@ class MarketController extends Controller
             'market_products.*',
             DB::raw(" (SELECT COUNT(market_carts.id) from market_carts where product_id=market_products.id and user_id=$this->auth_id) as cart")
         )
-            ->where('category', $id)->paginate(10);
+            ->where('category', $id)
+            ->where('status', 1)
+            ->paginate(10);
         $producs->makeHidden([
             'created_at', 'updated_at',
             'discount_percentage', 'gst', 'hsn_code',
@@ -98,6 +100,7 @@ class MarketController extends Controller
     public function orderProduct(Request $request)
     {
         $product_info = market_products::where('id', $request->product_id)->first();
+        
         $order = new market_orders();
         $order->product_id = $request->product_id;
         $order->user_id = $this->auth_id;

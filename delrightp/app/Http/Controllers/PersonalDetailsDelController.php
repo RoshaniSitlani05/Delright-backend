@@ -11,6 +11,8 @@ use App\Models\Contact;
 use Illuminate\Support\Facades\Auth;
 use App\Models\feedback;
 use App\Models\GetInTouch;
+use App\Models\VehicleDetails;
+use App\Models\EmergencyDetails;
 
 
 class PersonalDetailsDelController extends Controller
@@ -229,50 +231,62 @@ class PersonalDetailsDelController extends Controller
         }
     }
 
-    //Percent of profile completes
-    public function profilePercent()
+    
+        //Percent of profile completes
+    public function profilePercent($id)
     {
-        $user_id = Auth::user()->id; 
+        $user_id = $id; 
         
-        $bank_count =  Bank::where(['user_id' => $user_id, 'status' => 1])->count();
-
-        $contact_count =  Contact::where(['user_id' => $user_id, 'status' => 1])->count();
-
         $userData_count =  PersonalDetails::where(['user_id' => $user_id, 'status' => 1])->count();
+ 
+        $bank_count =  Banks::where(['user_id' => $user_id, 'status' => 1])->count();
+        
+        $vehicle_count =  VehicleDetails::where(['user_id' => $user_id, 'status' => 1])->whereNOTNULL('vehicle_type')->count();
+        
+        $contact_count =  EmergencyDetails::where(['user_id' => $user_id, 'status' => 1])->count();
 
-        $profession_count =  Profession::where(['user_id' => $user_id, 'status' => 1])->count();
+        $documents_count =  Documents::where(['user_id' => $user_id, 'status' => 1])->count();
 
+        $userData = 0;
         $bank = 0;
+        $vehicle = 0;
         $contact = 0;
-        $user = 0;
-        $professional = 0;
+        $documents = 0;
 
+        $userData_check = false;
         $bank_check = false;
+        $vehicle_check = false;
         $contact_check = false;
-        $user_check = false;
-        $professional_check = false;
+        $documents_check = false;
 
-        if($bank_count == 1){
-            $bank = 25;
+        if($userData_count == 1){
+            $userData = 20;
+            $userData_check = true;
+        }
+        
+        if($bank_count == 1){            
+            $bank = 20;
             $bank_check = true;
         }
-        
+
+        if($vehicle_count == 1){
+            $vehicle = 20;
+            $vehicle_check = true;
+        }
+
         if($contact_count == 1){
-            $contact = 25;
+            $contact = 20;
             $contact_check = true;
         }
-        if($userData_count == 1){
-            $user = 25;
-            $user_check = true;
-        }
-        if($profession_count == 1){
-            $professional = 25;
-            $professional_check = true;
+
+        if($documents_count == 1){
+            $documents = 20;
+            $documents_check = true;
         }
     
-        $profile_percent = $bank + $contact + $user + $professional;
+        $profile_percent = $userData + $bank + $vehicle + $contact + $documents;
 
-        return response()->json(['profile_percent'=> $profile_percent,'bank_details_completed'=> $bank_check,'contact_details_completed'=> $contact_check,'user_details_completed'=> $user_check,'professional_details_completed'=> $professional_check]);
+        return response()->json(['profile_percent'=> $profile_percent,'user_details_completed'=> $userData_check,'bank_details_completed'=> $bank_check,'contact_details_completed'=> $contact_check,'vehicle_details_completed'=> $vehicle_check,'documents_details_completed'=> $documents_check]);
     }
     
     

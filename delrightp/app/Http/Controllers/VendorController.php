@@ -6,6 +6,7 @@ use App\Models\order_status;
 use App\Models\orders;
 use App\Models\User;
 use App\Models\vendor_details;
+use App\Models\UserReviews;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\products;
@@ -22,8 +23,13 @@ class VendorController extends Controller
 
     public function vendorDetails($id)
     {
-        $vendorDetails = vendor_details::where('category', $id)->get();
+        $vendorDetails = [];
+        $vendorDetails = vendor_details::select('vendor_details.*','categories.consumable')
+                        ->leftjoin('categories', 'categories.id', '=', 'vendor_details.category')
+                        ->where('category', $id)->get();
+        
         $vendorDetails->makeHidden(['created_at', 'updated_at']);
+        
         return response()->json(['totalCount' => strval(count($vendorDetails)), 'details' => $vendorDetails]);
     }
 
@@ -48,9 +54,15 @@ class VendorController extends Controller
         $vendor->state = $request->state;
         $vendor->country = $request->country;
         $vendor->ISOCountryCode = $request->ISOCountryCode;
+        $vendor->fssai_license_no = $request->fssai_license_no;
         if ($request->has('image')) {
             $image = $request->image->store('public/vendor_profile');
             $vendor->image = $image;
+        }
+        
+        if ($request->has('fssai_license_doc')) {
+            $fssai_license_doc = $request->fssai_license_doc->store('public/LicenseDoc');
+            $vendor->fssai_license_doc = $fssai_license_doc;
         }
 
         $check = $vendor->save();
@@ -60,9 +72,10 @@ class VendorController extends Controller
     }
     public function getDetails()
     {
-        $vendor = User::select('users.name', 'users.email', 'users.fcm_token', 'vendor_details.*')
+        $vendor = User::select('users.name','users.verified', 'users.email','users.status', 'users.fcm_token', 'vendor_details.*','categories.consumable')
             ->where('users.id', auth('api')->user()->id)
             ->leftjoin('vendor_details', 'vendor_details.id', '=', 'users.id')
+            ->leftjoin('categories', 'categories.id', '=', 'vendor_details.category')
             ->first();
         $vendor->makeHidden(['created_at', 'updated_at']);
         return response()->json(['details' => $vendor]);
@@ -133,6 +146,16 @@ class VendorController extends Controller
             $image = $request->image->store('public/vendor_profile');
             $update->update(['image' => $image]);
         }
+        
+        if ($request->has('fssai_license_no')) {
+            $update->update(['fssai_license_no' => $request->fssai_license_no]);
+        }
+        
+        if ($request->has('fssai_license_doc')) {
+            $fssai_license_doc = $request->fssai_license_doc->store('public/LicenseDoc');
+            $update->update(['fssai_license_doc' => $fssai_license_doc]);
+        }
+        
         return response()->json(['successMsg' => 'Detials  successfully updated']);
     }
 

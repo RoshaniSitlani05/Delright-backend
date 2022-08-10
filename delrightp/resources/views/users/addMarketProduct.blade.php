@@ -1,21 +1,48 @@
 @extends('layouts.main') 
-@section('title', 'Profile')
+@section('title', 'Market Products')
 @section('content')
 <script src="js/app.js"></script>
  <div class="container-fluid">
+     <div class="page-header">
+            <div class="row align-items-end">
+                <div class="col-lg-8">
+                    <div class="page-header-title">
+                        <i class="ik ik-inbox bg-blue"></i>
+                        <div class="d-inline">
+                            <h5>{{ __('Add Market Products')}}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <nav class="breadcrumb-container" aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{{route('home')}}"><i class="ik ik-home"></i></a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="#">Market Products</a>
+                            </li>
+                            
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+     
         <div class="page-header">
              <div class="row">
                 <div class="col-lg-15 col-md-20">
                     <div class="card">
+                        @if (Session::has('flash_message'))
                          <div class="card-header">
-                            <h6>Add Products</h6>
-                            @if (Session::has('flash_message'))
+                            
                                 <div class="alert alert-success">
                                     {{ Session::get('flash_message') }}
                                 </div>
-                            @endif
-
+                            
                         </div>
+                        @endif
                         <div class="card-body">
                              <form class="form-horizontal" method="post" action="{{ route('InsertMarketProduct') }}" enctype="multipart/form-data">
                                 {{ csrf_field() }}
@@ -60,7 +87,9 @@
                  <div class="col-lg-4 col-md-5">
                     
                     <div class="card">
-                         <h6>Last added Products</h6>
+                          <div class="card-header">
+                            <h6>Last added Products</h6>
+                        </div>
                         <div class="card-body">
                             <table id="data_table" class="table">
                                 <th>ID</th>

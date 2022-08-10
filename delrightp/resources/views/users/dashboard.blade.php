@@ -79,13 +79,72 @@
             </div>
             <!-- page statustic chart end -->
                 
-            <div class="col-xl-12 col-md-12">
+            <div class="col-xl-4 col-md-4">
                 <div class="card new-cust-card">
                     <div class="card-header">
                         <form class="form-horizontal" method="post" action="{{ URL::to('addcod') }}">
                                 @csrf
                             <h2 style="display: contents;" class="fw-bolder mt-1">COD</h2>  
                                 <input type="checkbox" {{ (isset($cod) && $cod == 1 ? "checked" : '')}} class="idrecentimp" onchange="mark_cod(this.checked)" name="cod" id="cod" style="margin: 5px;">
+                                <button type="submit"
+                                    class="btn btn-primary btn-next">Add</button>
+                                <!-- <input style="margin: 5px;" class="form-check-input" type="checkbox" value="1" id="remember-me" /> -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8 col-md-8">
+                <div class="card new-cust-card">
+                    <div class="card-header">
+                        <form class="form-horizontal" method="post" action="{{ URL::to('addcouponcode') }}">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-xl-6 col-md-6">
+                                <h2 style="display: contents;" class="fw-bolder mt-1">Coupon Code</h2>  
+                                </div>
+                                <div class="col-xl-6 col-md-6">
+                                <h2 style="display: contents;" class="fw-bolder mt-1">Coupon Discount</h2>  
+                                </div>
+                                <div class="col-xl-6 col-md-6">
+                                <input type="text" class="idrecentimp" name="coupon_code" id="coupon_code" style="margin: 5px;" value="{{$coupon_code}}">
+                                </div>
+                                                                <br><br>
+                                
+                                <div class="col-xl-6 col-md-6">
+                                <input type="number" class="idrecentimp" name="coupon_discount" id="coupon_discount" style="margin: 5px;" value="{{$coupon_discount}}">
+                                <button type="submit"
+                                    class="btn btn-primary btn-next">Add</button>
+                                </div>
+                                    
+                                </div>
+                                <!-- <input style="margin: 5px;" class="form-check-input" type="checkbox" value="1" id="remember-me" /> -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-md-6">
+                <div class="card new-cust-card">
+                    <div class="card-header">
+                        <form class="form-horizontal" method="post" action="{{ URL::to('addservicecharge') }}">
+                                @csrf
+                            <h2 style="display: contents;" class="fw-bolder mt-1">Service Charge</h2>  
+                            <br>
+                                <input type="number" value="{{$servicecharge}}" class="idrecentimp" name="service_charge" id="service_charge" style="margin: 5px;">
+                                <button type="submit"
+                                    class="btn btn-primary btn-next">Add</button>
+                                <!-- <input style="margin: 5px;" class="form-check-input" type="checkbox" value="1" id="remember-me" /> -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-md-6">
+                <div class="card new-cust-card">
+                    <div class="card-header">
+                        <form class="form-horizontal" method="post" action="{{ URL::to('adddeliveryservicecharge') }}">
+                                @csrf
+                            <h2 style="display: contents;" class="fw-bolder mt-1">Delivery Service Charge</h2>  
+                            <br>
+                                <input type="number" value="{{$deliveryservicecharge}}" class="idrecentimp" name="delivery_service_charge" id="delivery_service_charge" style="margin: 5px;">
                                 <button type="submit"
                                     class="btn btn-primary btn-next">Add</button>
                                 <!-- <input style="margin: 5px;" class="form-check-input" type="checkbox" value="1" id="remember-me" /> -->
@@ -151,7 +210,7 @@
                                     @foreach ($products as $product)
                                          <tr>
                                         <td>{{$product->name }}</td>
-                                        <td><img src="{{URL::asset('../storage/app/'.$product->image)}}" alt="" class="img-fluid img-20"></td>
+                                        <td><img src="{{URL::asset('../storage/app/'.$product->image)}}" alt="" class="img-fluid img-50"></td>
                                         <td>
                                             <div class="p-status bg-green"></div>
                                         </td>

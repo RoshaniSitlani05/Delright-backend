@@ -161,7 +161,7 @@ class DocumentsDelController extends Controller
                 $fileNameToStore = $aadharcard_img->hashName();
              
                 $aadharcard_img->store('Documents', ['disk' => 'my_files']);
-                $update->update(['aadharcard_img' => $request->aadharcard_img]);
+                $update->update(['aadharcard_img' => $fileNameToStore]);
             }
         }
 
@@ -182,7 +182,7 @@ class DocumentsDelController extends Controller
                 $fileNameToStore = $passport_img->hashName();
              
                 $passport_img->store('Documents', ['disk' => 'my_files']);
-                $update->update(['passport_img' => $request->passport_img]);
+                $update->update(['passport_img' => $fileNameToStore]);
             }
         }
         

@@ -1,15 +1,24 @@
 @extends('layouts.main') 
-@section('title', 'Shop Category')
+@section('title', 'Data Tables')
 @section('content')
+    <!-- push external head elements to head -->
+    @push('head')
+        <link rel="stylesheet" href="{{ asset('plugins/DataTables/datatables.min.css') }}">
+    @endpush
+ 
+
+
+
 <!--<script src="js/app.js"></script>-->
  <div class="container-fluid">
-     <div class="page-header">
+        <div class="page-header">
             <div class="row align-items-end">
                 <div class="col-lg-8">
                     <div class="page-header-title">
                         <i class="ik ik-inbox bg-blue"></i>
                         <div class="d-inline">
-                            <h5>{{ __('Update Shop Category')}}</h5>
+                            <h5>{{ __('Add Slider')}}</h5>
+                            <span>{{ __('Upload your slider here, Use size 1920x1080 px or 16:9 Ratio.')}}</span>
                         </div>
                     </div>
                 </div>
@@ -20,7 +29,7 @@
                                 <a href="{{route('home')}}"><i class="ik ik-home"></i></a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">Shop Categories</a>
+                                <a href="#">Slider</a>
                             </li>
                             
                         </ol>
@@ -30,9 +39,10 @@
         </div>
 
      
+     
         <div class="page-header">
              <div class="row">
-                {{--<div class="col-lg-6 col-md-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="card">
                         <div class="card-header">
                             @if (Session::has('flash_message'))
@@ -44,21 +54,27 @@
                         </div>
                                 
                         <div class="card-body">
-                            <form class="form-horizontal" method="post" action="{{ route('InsertCatrgory') }}" enctype="multipart/form-data">
+                            <form class="form-horizontal" method="post" action="{{ route('InsertSlider') }}" enctype="multipart/form-data">
                                 {{ csrf_field() }}
-                                <label class="control-label" for="name">Category Name</label>
-                                 <input type="text" class="form-control" name="name" required>
-                                 @if ($errors->has('name'))
-                                    <span style="color:#fb0303">
-                                        {{ $errors->first('name') }}
-                                    </span>
-                                @endif
-                                <br>
+                                <label class="control-label" for="name">Category</label>
+                                <select class="form-control" name="shop_category" required>
+                                    <option value="">Select Option</option>
+                                    @foreach ($category as $cate)
+                                        <option value="{{ $cate->name }}">{{ $cate->name }}</option>
+                                    @endforeach
+                                    <!--<option value="Restaurants">Restaurants</option>-->
+                                    <!--<option value="Groceries">Groceries</option>-->
+                                    <!--<option value="Fish&Meat">Fish&Meat</option>-->
+                                    <!--<option value="Fruits & Vegetables">Fruits & Vegetables</option>-->
+                                    <!--<option value="Medicine">Medicine</option>-->
+                                    <!--<option value="Pet shop">Pet shop</option>-->
+                                    <option value="Home">Home</option>
+                                </select>
                                 <label class="control-label" for="name">Image</label>
-                                 <input type="file" class="form-control" name="image" required>
-                                 @if ($errors->has('image'))
+                                 <input type="file" class="form-control" name="slider_image" >
+                                 @if ($errors->has('slider_image'))
                                     <span style="color:#fb0303">
-                                        {{ $errors->first('image') }}
+                                        {{ $errors->first('slider_image') }}
                                     </span>
                                 @endif
                                 <br>
@@ -66,36 +82,25 @@
                             </form>
                         </div>
                     </div>
-                </div>--}}
+                </div>
                 
-                   <div class="col-lg-12 col-md-12">
+                   <div class="col-lg-6 col-md-6">
                     <div class="card">
                         <div class="card-body">
                             <table class="table" style="margin-bottom:20px;">
                                 <th>id</th>
                                 <th>Name</th>
-                                <th>Service Charge</th>
                                 <th>image</th>
-                                @foreach ($category as $cate)
+                                @foreach ($sliders as $slider)
                                 <tr>
-                                    <td>{{ $cate->id }}</td>
-                                    <td>{{ $cate->name }}</td>
-                                    <td>{{ $cate->service_charge }}</td>
-                                    <td><img src="{{ URL::asset('../storage/app/'.$cate->image) }}" class="img-fluid img-50" alt=""></td>
-                                    <td>
-                                        <a href="getCategory/{{$cate->id}}"><i class="fa fa-edit"></i></a>
-                                        @if ($cate->consumable == 1)
-                                                <a style="color: white;" href="{{ URL::to('shopCategoryStatus/'.$cate->id.'/'.$cate->consumable) }}" class="btn btn-success">Consumable to Fssai</a>
-                                            @else
-                                                <a style="color: white;" href="{{ URL::to('shopCategoryStatus/'.$cate->id.'/'.$cate->consumable) }}" class="btn btn-danger">Not Consumable</a>
-                                            @endif
-                                            
-                                    </td>
-                                    {{--<td><a href="deleteCategory/{{$cate->id}}"><i class="fa fa-trash"></i></a></td>--}}
+                                    <td>{{ $slider->id }}</td>
+                                    <td>{{ $slider->shop_category }}</td>
+                                    <td><img src="{{ URL::asset('../storage/app/'.$slider->slider_image) }}" alt="" class="img-fluid img-50"></td>
+                                    <td><a href="deleteSlider/{{$slider->id}}"><i class="fa fa-trash"></i></a></td>
                                 </tr>  
                                 @endforeach
                             </table>
-                             {!! $category->links() !!} 
+                             {!! $sliders->links() !!} 
                         </div>
                     </div>
                 </div>

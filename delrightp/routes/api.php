@@ -37,6 +37,16 @@ Route::POST(
     'signIn',
     [App\Http\Controllers\AuthController::class, 'login']
 );
+
+Route::POST(
+    'signUpS',
+    [App\Http\Controllers\AuthController::class, 'registerauthenticate']
+);
+
+Route::POST(
+    'signInS',
+    [App\Http\Controllers\AuthController::class, 'authenticate']
+);
 Route::POST(
     'signOut',
     [App\Http\Controllers\AuthController::class, 'logoutApi']
@@ -51,7 +61,7 @@ Route::POST(
 );
 
 //forgot password
-Route::GET('getcod', [App\Http\Controllers\AuthController::class, 'getCOD']);
+
 
 Route::POST(
     'test',
@@ -73,7 +83,8 @@ Route::POST(
 );
 
 
-
+// Route::GET('sliders', [App\Http\Controllers\ApiController::class, 'getAllSliders']);
+Route::GET('sliders/{category}', [App\Http\Controllers\ApiController::class, 'getAllSliders']);
 Route::GET('categoires', [App\Http\Controllers\ApiController::class, 'category']);
 Route::GET('productCategories', [App\Http\Controllers\ApiController::class, 'Productcategory']);
 
@@ -109,8 +120,6 @@ Route::POST('updateVendorDetails', [App\Http\Controllers\VendorController::class
 
 //User
 
-
-
 Route::GET('allProducts', [App\Http\Controllers\ProductUserController::class, 'displayAllProducts']);
 Route::GET('displaySinlgeProduct/{id}', [App\Http\Controllers\ProductUserController::class, 'displaySinlgeProduct']);
 Route::GET(
@@ -133,6 +142,8 @@ Route::POST(
     [App\Http\Controllers\UserController::class, 'addUserDetails']
 );
 
+Route::POST('getUserReviews', [App\Http\Controllers\UserController::class, 'getUserReviews']);
+
 Route::GET(
     'userMyDetails',
     [App\Http\Controllers\UserController::class, 'getMyDetails']
@@ -141,6 +152,11 @@ Route::GET(
 Route::POST(
     'updateUserDetails',
     [App\Http\Controllers\UserController::class, 'updateUserDetails']
+);
+
+Route::POST(
+    'addUserReview',
+    [App\Http\Controllers\UserController::class, 'addUserReview']
 );
 
 
@@ -281,6 +297,7 @@ Route::GET(
     'productsByCategory/{id}',
     [App\Http\Controllers\ProductUserController::class, 'productsByCategory']
 );
+
 Route::GET(
     'notifications',
     [App\Http\Controllers\ApiController::class, 'notifications']
@@ -339,6 +356,7 @@ Route::POST(
 
 Route::post('getInTouch', 'App\Http\Controllers\PersonalDetailsDelController@addGetInTouch');
 
+
 Route::apiResource('personalDetails', PersonalDetailsController::class);
 Route::post('/deleteUser/{id}', 'App\Http\Controllers\PersonalDetailsController@deleteUser');
 
@@ -349,7 +367,7 @@ Route::apiResource('personalDetailsDel', PersonalDetailsDelController::class);
 Route::post('/deleteUserDel/{id}', 'App\Http\Controllers\PersonalDetailsDelController@deleteUser');
 
 Route::post('/personalDetailsDel/update', 'App\Http\Controllers\PersonalDetailsDelController@update');
-Route::get('profilepercentDel', 'App\Http\Controllers\PersonalDetailsDelController@profilePercent');
+Route::get('profileDelpercent', 'App\Http\Controllers\PersonalDetailsDelController@profilePercent');
 
 
 
@@ -371,9 +389,17 @@ Route::post('/documents/update', 'App\Http\Controllers\DocumentsController@updat
 Route::apiResource('documentsDel', DocumentsDelController::class);
 Route::post('/documentsDel/update', 'App\Http\Controllers\DocumentsDelController@update');
 
+Route::GET('vehicles', [App\Http\Controllers\ApiController::class, 'vehicles']);
+Route::GET('getVehiclePrice/{id}', [App\Http\Controllers\ApiController::class, 'getVehiclePrice']);
 Route::apiResource('vehicledocuments', VehicleDetailsController::class);
 Route::post('/vehicledocuments/update', 'App\Http\Controllers\VehicleDetailsController@update');
 
 Route::apiResource('shop', ShopController::class);
 Route::post('/shop/update', 'App\Http\Controllers\ShopController@update');
+Route::GET('getcod', [App\Http\Controllers\AuthController::class, 'getCOD']);
+// Route::GET('getServiceCharge/{catid}', [App\Http\Controllers\AuthController::class, 'getServiceCharge']);
 
+Route::GET('getServiceCharge', [App\Http\Controllers\AuthController::class, 'getServiceCharge']);
+
+Route::GET('getDeliveryServiceCharge', [App\Http\Controllers\AuthController::class, 'getDeliveryServiceCharge']);
+Route::GET('checkCouponCode/{code}', [App\Http\Controllers\AuthController::class, 'checkCouponCode']);

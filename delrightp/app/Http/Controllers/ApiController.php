@@ -7,9 +7,47 @@ use App\Models\vendor_details;
 use App\Models\feedback;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Sliders;
+use App\Models\VehicleMaster;
+use App\Models\Settings;
 
 class ApiController extends Controller
 {
+     public function getAllSliders($category)
+    {
+        
+        $sliders = DB::table('sliders')->where('shop_category', $category)->get();
+        
+        return response()->json(['details' => $sliders]);
+    }
+    
+    public function vehicles()
+    {
+        $vehicles = VehicleMaster::where('status', 1)->get();
+        $vehicles->makeHidden(['created_at', 'updated_at']);
+
+        $setting = Settings::Where(['id' => 1])->get();
+        $ServiceCharge = $setting[0]->delivery_service_charge;
+        
+        return response()->json(['details' => $vehicles,'deliveryservicecharge' => $ServiceCharge]);
+    }
+
+    public function getVehiclePrice($id)
+    {
+        $vehicles = VehicleMaster::where('id', $id)->first();
+        
+        $vehicles->makeHidden(['created_at', 'updated_at']);
+
+        return response()->json(['details' => $vehicles]);
+    }
+    
+    // public function getAllSliders()
+    // {
+    //     $sliders = Sliders::all();
+    //     $sliders->makeHidden(['created_at', 'updated_at']);
+    //     return response()->json(['details' => $sliders]);
+    // }
+
     public function category()
     {
         $category = categories::all();
@@ -23,6 +61,7 @@ class ApiController extends Controller
         $category = DB::table('product_category')
             ->select('id', 'name')
             ->where('category', $cate->category)
+            ->where('status', 1)
             ->get();
 
         return response()->json(['totalCount' => strval(count($category)), 'details' => $category]);
@@ -45,4 +84,5 @@ class ApiController extends Controller
             return response()->json(['errorMsg' => 'Feedback not added']);
         }
     }
+    
 }

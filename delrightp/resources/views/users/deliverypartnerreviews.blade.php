@@ -1,5 +1,5 @@
 @extends('layouts.main') 
-@section('title', 'Users')
+@section('title', 'Delivery Partner Reviews')
 @section('content')
     <!-- push external head elements to head -->
     @push('head')
@@ -15,7 +15,7 @@
                     <div class="page-header-title">
                         <i class="ik ik-inbox bg-blue"></i>
                         <div class="d-inline">
-                            <h5>{{ __('User List')}}</h5>
+                            <h5>{{ __('Delivery Partner Reviews List')}}</h5>
                         </div>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                                 <a href="{{route('home')}}"><i class="ik ik-home"></i></a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">Users</a>
+                                <a href="#">Delivery Partner Reviews</a>
                             </li>
                             
                         </ol>
@@ -45,33 +45,29 @@
                             <thead>
                                 <tr>
                                     <th>{{ __('Id')}}</th>
-                                    <th class="nosort">{{ __('Avatar')}}</th>
-                                    <th>{{ __('Name')}}</th>
-                                    <th>{{ __('street')}}</th>
-                                    <th class="nosort">{{ __('Action')}}</th>
+                                    <th>{{ __('Rating')}}</th>
+                                    <th>{{ __('Review')}}</th>
+                                    <th>{{ __('Que 1')}}</th>
+                                    <th>{{ __('Que 2')}}</th>
+                                    <th>{{ __('Que 3')}}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($users as $user)
-                                    <tr>
-                                    <td>{{ $user->id}}</td>
-                                    <td><img src="{{ URL::asset('../storage/app/'.$user->image) }}" class="table-user-thumb" alt=""></td>
-                                    <td>{{ $user->name}}</td>
-                                    <td>{{ $user->street}}</td>
-                                    <td>
-                                        <div>
-                                            <a href="user/{{ $user->id }}"><i class="ik ik-eye"></i></a>
-                                            {{--@if ($user->status == 1)
-                                                <a style="color: white;" href="{{ URL::to('userStatus/'.$user->id.'/'.$user->status) }}" class="btn btn-success">Block</a>
-                                            @else
-                                                <a style="color: white;" href="{{ URL::to('userStatus/'.$user->id.'/'.$user->status) }}" class="btn btn-danger">UnBlock</a>
-                                            @endif--}}
-                                            
-                                            {{-- <a href="#"><i class="ik ik-edit-2"></i></a>
-                                            <a href="#"><i class="ik ik-trash-2"></i></a> --}}
-                                        </div>
-                                    </td>
+                                @php
+                                    $iii = 1
+                                @endphp
+                                @foreach ($reviews as $review)
+                                <tr>
+                                    <td>{{$iii}}</td>
+                                    <td>{{ $review->rating }}</td>
+                                    <td>{{ $review->review }}</td>
+                                    <td>{{ $review->ans_1 }}</td>
+                                    <td>{{ $review->ans_2 }}</td>
+                                    <td>{{ $review->ans_3 }}</td>
                                 </tr>
+                                @php 
+                                    $iii++;
+                                @endphp
                                 @endforeach
                                 
                                 

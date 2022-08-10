@@ -1,5 +1,5 @@
 @extends('layouts.main') 
-@section('title', 'Products')
+@section('title', 'Market Place Orders')
 @section('content')
     <!-- push external head elements to head -->
     @push('head')
@@ -15,7 +15,7 @@
                     <div class="page-header-title">
                         <i class="ik ik-inbox bg-blue"></i>
                         <div class="d-inline">
-                            <h5>{{ __('Products List')}}</h5>
+                            <h5>{{ __('Market Place Orders List')}}</h5>
                         </div>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                                 <a href="{{route('home')}}"><i class="ik ik-home"></i></a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">Products</a>
+                                <a href="#">Market Place Orders</a>
                             </li>
                             
                         </ol>
@@ -41,42 +41,43 @@
                 <div class="card">
                     <!--<div class="card-header"><h3>{{ __('Data Table')}}</h3></div>-->
                     <div class="card-body">
-                        <table id="data_table" class="table table-responsive">
+                        <table id="data_table" class="table">
                             <thead>
                                 <tr>
-                                    <th>{{ __('Id')}}</th>
-                                    <th class="nosort">{{ __('Product')}}</th>
-                                    <th>{{ __('Seller Name')}}</th>
-                                    <th>{{ __('Acutal price')}}</th>
-                                    <th>{{ __('Discount percentage')}}</th>
+                                    <th>{{ __('Order Id')}}</th>
+                                    <th>{{ __('Buyer Name')}}</th>                                    
+                                    <th>{{ __('Buyer Address')}}</th>                                    
+                                    <th>{{ __('Product Name')}}</th>
                                     <th>{{ __('Price')}}</th>
-                                    <th>{{ __('GST')}}</th>
-                                    <th>{{ __('hsn_code')}}</th>
                                     <th>{{ __('Quantity')}}</th>
-                                    <th class="nosort">{{ __('Action')}}</th>
-                                    {{-- <th class="nosort">{{ __('&nbsp;')}}</th> --}}
+                                    <th>{{ __('Status')}}</th>
+                                    {{--<th class="nosort">{{ __('Action')}}</th>--}}
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($products as $product)
                                     <tr>
-                                    <td>{{ $product->id}}</td>
-                                    {{-- <td><img src="../img/products/1.jpg" class="table-product-thumb" alt=""></td> --}}
-                                    <td>{{ $product->name}}</td>
-                                    <td>{{ $product->seller_name}}</td>
+                                        <td>{{ $product->order_id}}</td>
+                                    <td>{{ $product->buyer_name}}</td>
+                                    <td>{{ $product->shop_address}}</td>
+                                    <td>{{ $product->product_name}}</td>
                                     <td>{{ $product->price}}</td>
-                                    <td>{{ $product->discount_percentage}}</td>
-                                    <td>{{ ($product->discount_percentage/100)*$product->price}}</td>
-                                    <td>{{ $product->gst.'%'}}</td>
-                                    <td>{{ $product->hsn_code}}</td>
                                     <td>{{ $product->quantity}}</td>
-                                    <td>
-                                        <div class="table-actions">
-                                            {{--<a href="product/{{ $product->id }}"><i class="ik ik-eye"></i></a>--}}
-                                            {{-- <a href="#"><i class="ik ik-edit-2"></i></a> --}}
-                                            <a href="deleteProduct/{{ $product->id }}"><i class="ik ik-trash-2"></i></a>
-                                        </div>
-                                    </td>
+                                    <td>{{ $product->order_status}}</td>
+                                    <!--{{--<td><img src="{{ URL::asset('../storage/app/'.$user->image) }}" class="table-user-thumb" alt=""></td>--}}-->
+                                    <!--{{--<td>-->
+                                    <!--    <div>-->
+                                    <!--        <a href="user/{{ $user->id }}"><i class="ik ik-eye"></i></a>-->
+                                    <!--        @if ($user->status == 1)-->
+                                    <!--            <a style="color: white;" href="{{ URL::to('userStatus/'.$user->id.'/'.$user->status) }}" class="btn btn-success">Block</a>-->
+                                    <!--        @else-->
+                                    <!--            <a style="color: white;" href="{{ URL::to('userStatus/'.$user->id.'/'.$user->status) }}" class="btn btn-danger">UnBlock</a>-->
+                                    <!--        @endif-->
+                                            
+                                    <!--        {{-- <a href="#"><i class="ik ik-edit-2"></i></a>-->
+                                    <!--        <a href="#"><i class="ik ik-trash-2"></i></a> --}}-->
+                                    <!--    </div>-->
+                                    <!--</td>--}}-->
                                 </tr>
                                 @endforeach
                                 

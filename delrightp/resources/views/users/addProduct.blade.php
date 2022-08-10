@@ -41,10 +41,7 @@
                                        <input type="text" class="form-control" name="quantity" required>
                                        <label class="control-label" for="name">category</label>
                                        <select class="form-control" name="category">
-                                            @foreach ($category as $cate)
-                                                <option value="{{ $cate->id }}">{{ $cate->name }}</option>
-                                            @endforeach
-                                        
+                                            
                                        </select>
                                        <label class="control-label" for="name">Description</label>
                                        <textarea class="form-control"type="texx" class="form-control" name="description"></textarea>

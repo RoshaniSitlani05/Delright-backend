@@ -264,7 +264,7 @@ class VehicleDetailsController extends Controller
                 $fileNameToStore = $insurance->hashName();
              
                 $insurance->store('Documents', ['disk' => 'my_files']);
-                $update->update(['insurance' => $request->insurance]);
+                $update->update(['insurance' => $fileNameToStore]);
             }
         }
 
@@ -285,7 +285,7 @@ class VehicleDetailsController extends Controller
                 $fileNameToStore = $rcbook->hashName();
              
                 $rcbook->store('Documents', ['disk' => 'my_files']);
-                $update->update(['rcbook' => $request->rcbook]);
+                $update->update(['rcbook' => $fileNameToStore]);
             }
         }
 
@@ -306,7 +306,7 @@ class VehicleDetailsController extends Controller
                 $fileNameToStore = $driving_license->hashName();
              
                 $driving_license->store('Documents', ['disk' => 'my_files']);
-                $update->update(['driving_license' => $request->driving_license]);
+                $update->update(['driving_license' => $fileNameToStore]);
             }
         }
 
@@ -327,7 +327,7 @@ class VehicleDetailsController extends Controller
                 $fileNameToStore = $puc_certificate->hashName();
              
                 $puc_certificate->store('Documents', ['disk' => 'my_files']);
-                $update->update(['puc_certificate' => $request->puc_certificate]);
+                $update->update(['puc_certificate' => $fileNameToStore]);
             }
         }
 
@@ -348,7 +348,7 @@ class VehicleDetailsController extends Controller
                 $fileNameToStore = $vehicle_image1->hashName();
              
                 $vehicle_image1->store('Documents', ['disk' => 'my_files']);
-                $update->update(['vehicle_image1' => $request->vehicle_image1]);
+                $update->update(['vehicle_image1' => $fileNameToStore]);
             }
         }
 
@@ -369,7 +369,7 @@ class VehicleDetailsController extends Controller
                 $fileNameToStore = $vehicle_image2->hashName();
              
                 $vehicle_image2->store('Documents', ['disk' => 'my_files']);
-                $update->update(['vehicle_image2' => $request->vehicle_image2]);
+                $update->update(['vehicle_image2' => $fileNameToStore]);
             }
         }
 
@@ -390,7 +390,7 @@ class VehicleDetailsController extends Controller
                 $fileNameToStore = $vehicle_image3->hashName();
              
                 $vehicle_image3->store('Documents', ['disk' => 'my_files']);
-                $update->update(['vehicle_image3' => $request->vehicle_image3]);
+                $update->update(['vehicle_image3' => $fileNameToStore]);
             }
         }
 
@@ -411,7 +411,7 @@ class VehicleDetailsController extends Controller
                 $fileNameToStore = $vehicle_image4->hashName();
              
                 $vehicle_image4->store('Documents', ['disk' => 'my_files']);
-                $update->update(['vehicle_image4' => $request->vehicle_image4]);
+                $update->update(['vehicle_image4' => $fileNameToStore]);
             }
         }
 

@@ -1,5 +1,5 @@
 @extends('layouts.main') 
-@section('title', 'Data Tables')
+@section('title', 'Delivery Partners')
 @section('content')
     <!-- push external head elements to head -->
     @push('head')
@@ -15,8 +15,7 @@
                     <div class="page-header-title">
                         <i class="ik ik-inbox bg-blue"></i>
                         <div class="d-inline">
-                            <h5>{{ __('Data Table')}}</h5>
-                            <span>{{ __('lorem ipsum dolor sit amet, consectetur adipisicing elit')}}</span>
+                            <h5>{{ __('Delivery Partners List')}}</h5>
                         </div>
                     </div>
                 </div>
@@ -27,9 +26,8 @@
                                 <a href="{{route('home')}}"><i class="ik ik-home"></i></a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">Tables</a>
+                                <a href="#">Delivery Partners</a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Data Table</li>
                         </ol>
                     </nav>
                 </div>
@@ -40,7 +38,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header"><h3>{{ __('Data Table')}}</h3></div>
+                    <!--<div class="card-header"><h3>{{ __('Data Table')}}</h3></div>-->
                     <div class="card-body">
                         <table id="data_table" class="table">
                             <thead>
@@ -62,7 +60,19 @@
                                     <td>{{ $user['user_phone']}}</td>
                                     <td>
                                         <div class="table-actions">
-                                            <a style="color: white;" href="{{ URL::to('deliverypartnerkyc/'.$user['user_id']) }}" class="btn btn-primary" type="submit"> KYC Verification</a>
+                                            @if ($user['user_block_status'] == 1)
+                                                <a style="color: white;" href="{{ URL::to('partnerStatus/'.$user['user_id'].'/'.$user['user_block_status']) }}" class="btn btn-success">Block</a>
+                                            @else
+                                                <a style="color: white;" href="{{ URL::to('partnerStatus/'.$user['user_id'].'/'.$user['user_block_status']) }}" class="btn btn-danger">UnBlock</a>
+                                            @endif
+                                            
+                                            	@php
+                						            $data = \App\Models\VehicleDetails::where(['user_id' => $user['user_id'], 'status' => 1])->get();
+                						        @endphp
+                                                @if(count($data) > 0)
+                                            <a style="color: white;" href="{{ URL::to('deliverypartnerkyc/'.$user['user_id']) }}" class="btn btn-primary" type="submit"> KYC</a>
+                                            @endif
+                                            <a style="color: white;" href="{{ URL::to('partnerreviews/'.$user['user_id']) }}" class="btn btn-primary" type="submit">Reviews</a>
                                             {{--<a href="#"><i class="ik ik-edit-2"></i></a>
                                             <a href="#"><i class="ik ik-trash-2"></i></a>--}}
                                         </div>
