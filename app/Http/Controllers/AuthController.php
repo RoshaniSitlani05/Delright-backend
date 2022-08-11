@@ -256,6 +256,29 @@ class AuthController extends Controller
             // something went wrong 
             return response()->json(['error' => 'could_not_create_token'], 500); 
         } 
+        $data = [
+            'phone_number' => $request->phone_number,
+            'role' => $request->role
+        ];
+
+        if (auth()->attempt($data)) {            
+            $userData = User::where('phone_number', '=', $phone_number)->get();
+            
+            $success['token'] = $token;
+            $success['role'] = $request->role;
+            $success['status'] = $userData[0]->status;
+
+            return response()->json([
+                'successMsg' => 'SuccessFully Logged IN', 'details' => auth()->user(), 'details' => $success
+            ]);
+        } else {
+            $emailCheck = User::where('phone_number', $request->phone_number)->get();
+            if (count($emailCheck) < 1) {
+                return response()->json(['validateError' => ['phone_number' => 'invalid Phone Number', 'password' => 'invalid password']]);
+            } else {
+                return response()->json(['validateError' => ['password' => 'password not matching']]);
+            }
+        }
         // if no errors are encountered we can return a JWT 
         return response()->json(compact('token')); 
     }
@@ -294,11 +317,9 @@ class AuthController extends Controller
             return response()->json(['error' => 'could_not_create_token'], 500); 
         } 
         // if no errors are encountered we can return a JWT 
-        return response()->json(compact('token')); 
-
         
         if ($result == true) {
-            $token = $user->createToken('LaravelAuthApp')->accessToken;
+            
             return response()->json(['success' => 'message', 'details' => $token, 'fcm_token' => $request->fcm_token]);
         }
         
