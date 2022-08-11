@@ -274,10 +274,8 @@ class AuthController extends Controller
         } else {
             $emailCheck = User::where('phone_number', $request->phone_number)->get();
             if (count($emailCheck) < 1) {
-                return response()->json(['validateError' => ['phone_number' => 'invalid Phone Number', 'password' => 'invalid password']]);
-            } else {
-                return response()->json(['validateError' => ['password' => 'password not matching']]);
-            }
+                return response()->json(['validateError' => ['phone_number' => 'invalid Phone Number']]);
+            } 
         }
         // if no errors are encountered we can return a JWT 
         return response()->json(compact('token')); 
