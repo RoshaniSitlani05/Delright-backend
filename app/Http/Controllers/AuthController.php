@@ -265,7 +265,7 @@ class AuthController extends Controller
             $userData = User::where('phone_number', '=', $phone_number)->get();
             
             $success['token'] = $token;
-            $success['role'] = $request->role;
+            $success['role'] = $userData[0]->role;
             $success['status'] = $userData[0]->status;
 
             return response()->json([
