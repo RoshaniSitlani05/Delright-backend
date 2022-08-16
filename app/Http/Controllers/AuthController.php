@@ -261,7 +261,7 @@ class AuthController extends Controller
             'role' => $request->role
         ];
 
-        if (auth()->attempt($data)) {            
+        if ($user != '') {            
             $userData = User::where('phone_number', '=', $phone_number)->get();
             
             $success['token'] = $token;
