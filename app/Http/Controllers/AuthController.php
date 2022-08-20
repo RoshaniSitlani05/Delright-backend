@@ -301,6 +301,11 @@ class AuthController extends Controller
         $user = new User;
         $user->phone_number = $request->phone_number;
         $user->role = $request->role;
+
+        $unique_pin = random_int(100000, 999999);
+        $user->unique_pin = $unique_pin;
+
+
         $result = $user->save();
 
         $phone_number = $request->input('phone_number');
