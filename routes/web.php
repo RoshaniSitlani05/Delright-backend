@@ -17,6 +17,14 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+Route::get('termsandconditions', function () {
+    return view('termsandconditions');
+});
+
+Route::get('privacypolicy', function () {
+    return view('privacypolicy');
+});
+
 Auth::routes();
 
 Route::get(

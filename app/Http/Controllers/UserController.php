@@ -50,7 +50,7 @@ class UserController extends Controller
 
     public function getMyDetails()
     {
-        $user = User::select('users.id', 'users.name', 'users.email', 'users.fcm_token', 'user_details.*')
+        $user = User::select('users.id', 'users.name', 'users.email', 'users.fcm_token', 'users.unique_pin', 'user_details.*')
             ->leftjoin('user_details', 'user_details.user_id', '=', 'users.id')
             ->where('users.id', $this->auth_id)
             ->first();
