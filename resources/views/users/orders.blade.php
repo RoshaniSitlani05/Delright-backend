@@ -54,6 +54,8 @@
                                     <th>{{ __('Driver Phone number')}}</th>
                                     <th>{{ __('Receiver Name')}}</th>
                                     <th>{{ __('Receiver Phone number')}}</th>
+                                    <th>{{ __('Totak Price')}}</th>
+                                    <th>{{ __('Delivery Charge')}}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -69,6 +71,8 @@
                                         <td>{{ $order['delivery_info']['driver_phoneNumber'] }}</td>
                                         <td>{{ $order['destination_info']['user_name'] }}</td>
                                         <td>{{ $order['destination_info']['user_phoneNumber'] }}</td>
+                                        <td>{{ $order['order_info']['order_total_price'] }}</td>
+                                        <td>{{ $order['order_info']['order_delivery_charge'] }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
