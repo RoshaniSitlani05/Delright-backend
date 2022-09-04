@@ -79,7 +79,7 @@
             </div>
             <!-- page statustic chart end -->
                 
-            <div class="col-xl-4 col-md-4">
+            <div class="col-xl-12 col-md-12">
                 <div class="card new-cust-card">
                     <div class="card-header">
                         <form class="form-horizontal" method="post" action="{{ URL::to('addcod') }}">
@@ -93,7 +93,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-8 col-md-8">
+            {{--<div class="col-xl-8 col-md-8">
                 <div class="card new-cust-card">
                     <div class="card-header">
                         <form class="form-horizontal" method="post" action="{{ URL::to('addcouponcode') }}">
@@ -121,8 +121,8 @@
                         </form>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl-6 col-md-6">
+            </div>--}}
+            {{--<div class="col-xl-6 col-md-6">
                 <div class="card new-cust-card">
                     <div class="card-header">
                         <form class="form-horizontal" method="post" action="{{ URL::to('addservicecharge') }}">
@@ -151,7 +151,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div>--}}
 
             <!-- product and new customar start -->
             <div class="col-xl-4 col-md-6">

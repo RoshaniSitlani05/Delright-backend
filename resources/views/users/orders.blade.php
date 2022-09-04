@@ -15,7 +15,7 @@
                     <div class="page-header-title">
                         <i class="ik ik-inbox bg-blue"></i>
                         <div class="d-inline">
-                            <h5>{{ __('Pickup-Drop Orders List')}}</h5>
+                            <h5>{{ __('Pickup-Drop Orders / Taxi Service List')}}</h5>
                         </div>
                     </div>
                 </div>
@@ -40,11 +40,12 @@
             <div class="col-md-12">
                 <div class="card">
                     
-                    <div class="card-body">
+                    <div class="card-body table-responsive">
                         <table id="data_table" class="table">
                             <thead>
                                 <tr>
                                     <th>{{ __('Order Id')}}</th>
+                                    <th>{{ __('Order Type')}}</th>
                                     <th>{{ __('Sender Name')}}</th>
                                     <th>{{ __('Sender Phone number')}}</th>
                                     <th class="nosort">{{ __('Order Status')}}</th>
@@ -59,6 +60,7 @@
                                 @foreach ($orders as $order)
                                     <tr>
                                         <td>{{ $order['order_info']['order_id'] }}</td>
+                                        <td>{{ $order['order_info']['order_type'] }}</td>
                                         <td>{{ $order['pickup_info']['name'] }}</td>
                                         <td>{{ $order['pickup_info']['phoneNumber'] }}</td>
                                         <td>{{ $order['order_info']['order_status'] }}</td>

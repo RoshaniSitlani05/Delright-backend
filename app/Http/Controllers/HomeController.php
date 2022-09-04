@@ -139,10 +139,10 @@ class HomeController extends Controller
             ->where('users.id', $id)->first();
 
         $fileJson =  base_path("delright-dbc86-firebase.json");
-        $serviceAccount = ServiceAccount::fromJsonFile($fileJson);
-        $firebase = (new Factory)
-        ->withServiceAccount($serviceAccount);
-
+        // $serviceAccount = ServiceAccount::fromJsonFile($fileJson);
+        // $firebase = (new Factory)
+        // ->withServiceAccount($serviceAccount);
+        $firebase = (new Factory)->withServiceAccount($fileJson);
         $firestore = new FirestoreClient([
             'projectId' => 'delright-dbc86',
         ]);
@@ -220,15 +220,15 @@ class HomeController extends Controller
     public function orders()
     {
         $fileJson =  base_path("delright-dbc86-firebase.json");
-        $serviceAccount = ServiceAccount::fromJsonFile($fileJson);
-        $firebase = (new Factory)
-        ->withServiceAccount($serviceAccount);
-
+        // $serviceAccount = ServiceAccount::fromJsonFile($fileJson);
+        // $firebase = (new Factory)
+        // ->withServiceAccount($serviceAccount);
+        $firebase = (new Factory)->withServiceAccount($fileJson);
         $firestore = new FirestoreClient([
             'projectId' => 'delright-dbc86',
         ]);
 
-        $collectionReference = $firestore->collection('orders')->where('order_info.order_type', '=', 'PICKUP_DROP_SERVICE');
+        $collectionReference = $firestore->collection('orders')->where('order_info.order_type', '!=', 'SELLER_TO_USER_DELIVERY');
 
         $documentReference = $collectionReference->documents();
 
@@ -261,10 +261,11 @@ class HomeController extends Controller
         //     ->where('users.id', $id)->get();
 
         $fileJson =  base_path("delright-dbc86-firebase.json");
-        $serviceAccount = ServiceAccount::fromJsonFile($fileJson);
-        $firebase = (new Factory)
-        ->withServiceAccount($serviceAccount);
+        // $serviceAccount = ServiceAccount::fromJsonFile($fileJson);
+        // $firebase = (new Factory)
+        // ->withServiceAccount($serviceAccount);
 
+        $firebase = (new Factory)->withServiceAccount($fileJson);
         $firestore = new FirestoreClient([
             'projectId' => 'delright-dbc86',
         ]);
@@ -295,10 +296,10 @@ class HomeController extends Controller
     public function getOrders($id)
     {
         $fileJson =  base_path("delright-dbc86-firebase.json");
-        $serviceAccount = ServiceAccount::fromJsonFile($fileJson);
-        $firebase = (new Factory)
-        ->withServiceAccount($serviceAccount);
-
+        // $serviceAccount = ServiceAccount::fromJsonFile($fileJson);
+        // $firebase = (new Factory)
+        // ->withServiceAccount($serviceAccount);
+        $firebase = (new Factory)->withServiceAccount($fileJson);
         $firestore = new FirestoreClient([
             'projectId' => 'delright-dbc86',
         ]);
@@ -340,9 +341,12 @@ class HomeController extends Controller
     public function deliveryusers()
     {
         $fileJson =  base_path("delright-dbc86-firebase.json");
-        $serviceAccount = ServiceAccount::fromJsonFile($fileJson);
-        $firebase = (new Factory)
-        ->withServiceAccount($serviceAccount);
+        $firebase = (new Factory)->withServiceAccount($fileJson);
+
+        // $database = $firebase->createDatabase();
+        // $serviceAccount = ServiceAccount::fromJsonFile($fileJson);
+        // $firebase = (new Factory)
+        // ->withServiceAccount($serviceAccount);
 
         $firestore = new FirestoreClient([
             'projectId' => 'delright-dbc86',
@@ -411,9 +415,10 @@ class HomeController extends Controller
             ->where('users.id', $id)->first();
 
         $fileJson =  base_path("delright-dbc86-firebase.json");
-        $serviceAccount = ServiceAccount::fromJsonFile($fileJson);
-        $firebase = (new Factory)
-        ->withServiceAccount($serviceAccount);
+        // $serviceAccount = ServiceAccount::fromJsonFile($fileJson);
+        // $firebase = (new Factory)
+        // ->withServiceAccount($serviceAccount);
+        $firebase = (new Factory)->withServiceAccount($fileJson);
 
         $firestore = new FirestoreClient([
             'projectId' => 'delright-dbc86',
@@ -843,10 +848,10 @@ class HomeController extends Controller
         $vehiclesdetails =  VehicleDetails::where(['user_id' => $id, 'status' => 1])->get();
 
         $fileJson =  base_path("delright-dbc86-firebase.json");
-        $serviceAccount = ServiceAccount::fromJsonFile($fileJson);
-        $firebase = (new Factory)
-        ->withServiceAccount($serviceAccount);
-
+        // $serviceAccount = ServiceAccount::fromJsonFile($fileJson);
+        // $firebase = (new Factory)
+        // ->withServiceAccount($serviceAccount);
+        $firebase = (new Factory)->withServiceAccount($fileJson);
         $firestore = new FirestoreClient([
             'projectId' => 'delright-dbc86',
         ]);
@@ -879,10 +884,10 @@ class HomeController extends Controller
         public function verifyKYCDeliveryDetails($id)
     {
         $fileJson =  base_path("delright-dbc86-firebase.json");
-        $serviceAccount = ServiceAccount::fromJsonFile($fileJson);
-        $firebase = (new Factory)
-        ->withServiceAccount($serviceAccount);
-
+        // $serviceAccount = ServiceAccount::fromJsonFile($fileJson);
+        // $firebase = (new Factory)
+        // ->withServiceAccount($serviceAccount);
+        $firebase = (new Factory)->withServiceAccount($fileJson);
         $firestore = new FirestoreClient([
             'projectId' => 'delright-dbc86',
         ]);
@@ -1007,10 +1012,10 @@ class HomeController extends Controller
     public function updatePartnerStatus($id,$status)
     {
         $fileJson =  base_path("delright-dbc86-firebase.json");
-        $serviceAccount = ServiceAccount::fromJsonFile($fileJson);
-        $firebase = (new Factory)
-        ->withServiceAccount($serviceAccount);
-
+        // $serviceAccount = ServiceAccount::fromJsonFile($fileJson);
+        // $firebase = (new Factory)
+        // ->withServiceAccount($serviceAccount);
+        $firebase = (new Factory)->withServiceAccount($fileJson);
         $firestore = new FirestoreClient([
             'projectId' => 'delright-dbc86',
         ]);
@@ -1127,10 +1132,10 @@ class HomeController extends Controller
             $users = [];
             
             $fileJson =  base_path("delright-dbc86-firebase.json");
-            $serviceAccount = ServiceAccount::fromJsonFile($fileJson);
-            $firebase = (new Factory)
-            ->withServiceAccount($serviceAccount);
-
+            // $serviceAccount = ServiceAccount::fromJsonFile($fileJson);
+            // $firebase = (new Factory)
+            // ->withServiceAccount($serviceAccount);
+            $firebase = (new Factory)->withServiceAccount($fileJson);
             $firestore = new FirestoreClient([
                 'projectId' => 'delright-dbc86',
             ]);

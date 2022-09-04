@@ -73,9 +73,9 @@
                                                 <a style="color: white;" href="{{ URL::to('userStatus/'.$user->id.'/'.$user->status) }}" class="btn btn-success">Block</a>
                                             @else
                                                 <a style="color: white;" href="{{ URL::to('userStatus/'.$user->id.'/'.$user->status) }}" class="btn btn-danger">UnBlock</a>
-                                            @endif
+                                            @endif--}}
                                             <a style="color: white;" href="{{ URL::to('vendorkyc/'.$user->id) }}" class="btn btn-primary" type="submit">KYC</a>
-                                               <a style="color: white;" href="{{ URL::to('vendorreviews/'.$user->id) }}" class="btn btn-primary" type="submit">Reviews</a>--}}
+                                               {{--<a style="color: white;" href="{{ URL::to('vendorreviews/'.$user->id) }}" class="btn btn-primary" type="submit">Reviews</a>--}}
                                             {{--<a href="#"><i class="ik ik-edit-2"></i></a>
                                             <a href="#"><i class="ik ik-trash-2"></i></a>--}}
                                         </div>

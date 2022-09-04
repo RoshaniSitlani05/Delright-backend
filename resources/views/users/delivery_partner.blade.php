@@ -60,11 +60,11 @@
                                     <td>{{ $user['user_phone']}}</td>
                                     <td>
                                         <div class="table-actions">
-                                            @if ($user['user_block_status'] == 1)
+                                            {{--@if ($user['user_block_status'] == 1)
                                                 <a style="color: white;" href="{{ URL::to('partnerStatus/'.$user['user_id'].'/'.$user['user_block_status']) }}" class="btn btn-success">Block</a>
                                             @else
                                                 <a style="color: white;" href="{{ URL::to('partnerStatus/'.$user['user_id'].'/'.$user['user_block_status']) }}" class="btn btn-danger">UnBlock</a>
-                                            @endif
+                                            @endif--}}
                                             
                                             	@php
                 						            $data = \App\Models\VehicleDetails::where(['user_id' => $user['user_id'], 'status' => 1])->get();
@@ -72,7 +72,7 @@
                                                 @if(count($data) > 0)
                                             <a style="color: white;" href="{{ URL::to('deliverypartnerkyc/'.$user['user_id']) }}" class="btn btn-primary" type="submit"> KYC</a>
                                             @endif
-                                            <a style="color: white;" href="{{ URL::to('partnerreviews/'.$user['user_id']) }}" class="btn btn-primary" type="submit">Reviews</a>
+                                            {{--<a style="color: white;" href="{{ URL::to('partnerreviews/'.$user['user_id']) }}" class="btn btn-primary" type="submit">Reviews</a>--}}
                                             {{--<a href="#"><i class="ik ik-edit-2"></i></a>
                                             <a href="#"><i class="ik ik-trash-2"></i></a>--}}
                                         </div>

@@ -67,7 +67,7 @@
                     <a href="{{ URL::to('marketProductsOrders') }}"><i class="ik ik-user"></i><span>{{ __('Market Products Orders')}}</span></a>
                 </div>
                 <div class="nav-item {{ ($segment1 == 'users' || $segment1 == 'roles'||$segment1 == 'permission' ||$segment1 == 'user') ? 'active open' : '' }} ">
-                    <a href="{{ URL::to('orders') }}"><i class="ik ik-user"></i><span>{{ __('Pickupe and Drop Orders')}}</span></a>
+                    <a href="{{ URL::to('orders') }}"><i class="ik ik-user"></i><span>{{ __('Pickupe and Drop Orders / Taxi Service')}}</span></a>
                 </div>
                 <div class="nav-item {{ ($segment1 == 'users' || $segment1 == 'roles'||$segment1 == 'permission' ||$segment1 == 'user') ? 'active open' : '' }} ">
                     <a href="{{ URL::to('addVehicle') }}"><i class="ik ik-user"></i><span>{{ __('Add Vehicle')}}</span></a>
